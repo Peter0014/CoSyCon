@@ -25,6 +25,8 @@ public class RoomActivity extends AppCompatActivity {
 
         initializeVariables();
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     private void initializeVariables() {
@@ -39,15 +41,18 @@ public class RoomActivity extends AppCompatActivity {
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.room_bottom_navigation_bar);
 
         // Set Style, Color and add Items
-        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
         bottomNavigationBar
                 .setInActiveColor("#607D8B")
                 .setBarBackgroundColor("#FFFFFF");
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_star, "Scenes").setActiveColor("#9FA8DA"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_home, "Rooms").setActiveColor("#4DD0E1"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_play_clip, "TimeLine").setActiveColor("#AED581"))
-                .initialise();
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_play_clip, "TimeLine").setActiveColor("#AED581"));
+
+        // Select active Item and initialise
+        bottomNavigationBar.selectTab(1);
+        bottomNavigationBar.initialise();
 
         // Set FloatingActionButton and set onClickListener to do something
         fab = (FloatingActionButton) findViewById(R.id.room_fab);
