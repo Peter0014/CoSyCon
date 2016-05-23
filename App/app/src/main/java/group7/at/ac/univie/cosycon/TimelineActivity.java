@@ -32,7 +32,7 @@ public class TimelineActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         // Set toolbar and set it at ActionBar
-        toolbar = (Toolbar) findViewById(R.id.timeline_bottom_navigation_bar);
+        toolbar = (Toolbar) findViewById(R.id.timeline_toolbar);
         setSupportActionBar(toolbar);
 
         // Set BottomNavigationBar
@@ -41,13 +41,12 @@ public class TimelineActivity extends AppCompatActivity {
         // Set Style, Color and add Items
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
         bottomNavigationBar
-                .setActiveColor(R.color.colorPrimary)
-                .setInActiveColor(R.color.colorPrimaryDark)
+                .setInActiveColor("#607D8B")
                 .setBarBackgroundColor("#FFFFFF");
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_star, "Scenes"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_home, "Rooms"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_menu_play_clip, "TimeLine"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_star, "Scenes").setActiveColor("#9FA8DA"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_home, "Rooms").setActiveColor("#4DD0E1"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_play_clip, "TimeLine").setActiveColor("#AED581"))
                 .initialise();
 
         // Set FloatingActionButton and set onClickListener to do something
