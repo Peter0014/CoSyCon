@@ -32,22 +32,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_timeline" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/timeline_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/general_margin_bottom"
-        android:src="@drawable/add" />
-
-    <com.ashokvarma.bottomnavigation.BottomNavigationBar
-        android:layout_gravity="bottom"
-        android:id="@+id/timeline_bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"/>
+    <!--
+        ! Content !
+    -->
 
 </android.support.design.widget.CoordinatorLayout>

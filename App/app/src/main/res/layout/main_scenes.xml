@@ -9,17 +9,22 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:layout_marginBottom="@dimen/general_margin_bottom"
+    android:id="@id/main_scenes"
+    android:visibility="invisible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="group7.at.ac.univie.cosycon.TimelineActivity"
-    tools:showIn="@layout/activity_timeline">
+    tools:context="group7.at.ac.univie.cosycon.MainActivity"
+    tools:showIn="@layout/activity_main">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/timeline_contentLayout">
+        android:layout_height="match_parent">
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="Scenes" />
 
 
     </LinearLayout>

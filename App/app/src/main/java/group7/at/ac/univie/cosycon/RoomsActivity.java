@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class ScenesActivity extends AppCompatActivity {
+public class RoomsActivity extends AppCompatActivity {
 
     Context context;
     Toolbar toolbar;
@@ -25,7 +25,7 @@ public class ScenesActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         // Set toolbar and set it at ActionBar
-        toolbar = (Toolbar) findViewById(R.id.scenes_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.rooms_toolbar);
         setSupportActionBar(toolbar);
 
     }
