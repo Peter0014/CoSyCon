@@ -76,7 +76,7 @@ public class Roomadd extends AppCompatActivity {
     }
     public void switchpage()
     {
-        Intent intent = new Intent(this, RoomActivity.class);
+        Intent intent = new Intent(this, Roomsetting.class);
         startActivity(intent);
     }
     public void warn(String message)
