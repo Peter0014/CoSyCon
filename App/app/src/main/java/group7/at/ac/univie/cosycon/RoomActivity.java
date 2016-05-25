@@ -1,14 +1,15 @@
 package group7.at.ac.univie.cosycon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.ashokvarma.bottomnavigation.*;
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 public class RoomActivity extends AppCompatActivity {
 
@@ -24,7 +25,6 @@ public class RoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
 
         initializeVariables();
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
@@ -58,13 +58,17 @@ public class RoomActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.room_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Do something Beispiel:
-                Snackbar.make(findViewById(android.R.id.content), "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View view)
+            {
+                switchpage();
             }
         });
 
+    }
+    public void switchpage()
+    {
+        Intent intent = new Intent(this, Roomadd.class);
+        startActivity(intent);
     }
 
 }

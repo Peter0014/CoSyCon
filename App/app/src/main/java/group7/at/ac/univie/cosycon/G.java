@@ -11,14 +11,19 @@ public class G {
     private boolean isSensor;
     private GE geraeteinstellung;
 
-    public G(String id, String name, group7.at.ac.univie.cosycon.ItemTyp itemTyp, boolean isSensor, GE geraeteinstellung) {
+    public G(String id, String name,ItemTyp itemTyp, boolean isSensor, GE geraeteinstellung) {
         this.id = id;
         this.name = name;
         ItemTyp = itemTyp;
         this.isSensor = isSensor;
         this.geraeteinstellung = geraeteinstellung;
     }
-
+    public G(String id, String name,ItemTyp itemTyp, boolean isSensor) {
+        this.id = id;
+        this.name = name;
+        ItemTyp = itemTyp;
+        this.isSensor = isSensor;
+    }
     public String getId() {
         return id;
     }
