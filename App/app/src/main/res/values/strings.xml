@@ -3,4 +3,11 @@
     <string name="title_activity_room">Rooms</string>
     <string name="title_activity_scenes">Scenes</string>
     <string name="title_activity_timeline">TimeLine</string>
+    <string name="gtype_prompt">Choose a type</string>
+    <string-array name="itemtypes">
+        <item>Computer</item>
+        <item>Fenster</item>
+        <item>Fernseher</item>
+        <item>Lampe</item>
+    </string-array>
 </resources>
