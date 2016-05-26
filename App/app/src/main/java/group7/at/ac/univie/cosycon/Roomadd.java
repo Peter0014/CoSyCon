@@ -16,7 +16,7 @@ public class Roomadd extends AppCompatActivity {
 
     private SharedPreferences preferencessetting;
     private SharedPreferences.Editor editor;
-    EditText gname, serialid;
+    EditText gname;
     Spinner itemtype;
     RadioButton issensor;
     Button addbutton;
@@ -36,13 +36,8 @@ public class Roomadd extends AppCompatActivity {
                 {
                     warn("adding requires serial-id");
                 }
-                else if(serialid.getText().toString().trim().length()<=0)
-                {
-                    warn("adding requires name");
-                }
                 else
                 {
-                    id = serialid.getText().toString();
                     if(savedata())
                         success("successfully adding object");
                     else
@@ -59,7 +54,6 @@ public class Roomadd extends AppCompatActivity {
     private void initializeVariables()
     {
         gname = (EditText)findViewById(R.id.gname);
-        serialid = (EditText)findViewById(R.id.serialid);
         itemtype = (Spinner)findViewById(R.id.itemtyp);
         issensor = (RadioButton)findViewById(R.id.issensor);
         addbutton = (Button)findViewById(R.id.addbutton);
@@ -68,20 +62,23 @@ public class Roomadd extends AppCompatActivity {
     private boolean dataexist()
     {
         preferencessetting = getPreferences(0);
-        if(preferencessetting.getString(id,null)!= null)
+        if(preferencessetting.getString("G"+id+"_name",null)!= null)
             return true;
         else
             return false;
     }
     private boolean savedata()
     {
+        int idnum = preferencessetting.getInt("G_Array_len",0);
+        id = "G" + idnum;
         if(!dataexist())
         {
             editor = preferencessetting.edit();
-            editor.putString(id,id);
             editor.putString(id+"_name",gname.getText().toString());
             editor.putString(id+"_itemtype",itemtype.getSelectedItem().toString());
             editor.putBoolean(id+"_issensor",issensor.isChecked());
+            editor.commit();
+            editor.putInt("G_Array_len",++idnum);
             editor.commit();
             return true;
         }
