@@ -58,12 +58,10 @@ public class Roomadd extends AppCompatActivity {
         itemtype = (Spinner)findViewById(R.id.itemtyp);
         issensor = (RadioButton)findViewById(R.id.issensor);
         addbutton = (Button)findViewById(R.id.addbutton);
-        preferencessetting = getPreferences(Context.MODE_PRIVATE);
+        preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
 
     }
-    /*
-    
-     */
+
     private boolean dataexist()
     {
 

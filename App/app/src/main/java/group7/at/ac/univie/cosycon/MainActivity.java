@@ -2,12 +2,18 @@ package group7.at.ac.univie.cosycon;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -20,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     BottomNavigationBar bottomNavigationBar;
     RelativeLayout scenes, timeline, room;
+    SharedPreferences sp;
 
 
     @Override
@@ -74,11 +81,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        LinearLayout roomContent = (LinearLayout) room.findViewById(R.id.rooms_content),
+                     scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
+                     timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
+
+        // Beispiel. Iterieren durch alle Elemente und Informationen extrahieren
+
+        for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
+            String name = sp.getString("G" + i + "_name", null);
+            String type = sp.getString("G" + i + "_itemtype", null);
+            boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
+            // Verfügbare Objekte zum View hinzufügen
+            roomContent.addView(createDeviceCard(name, type, sensor));
+        }
     }
 
     private void initializeVariables() {
         // Get and set actual context
         context = getApplicationContext();
+        sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
 
         // Find Content Views
         room = (RelativeLayout) findViewById(R.id.main_rooms);
@@ -129,5 +151,55 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null)
             startActivity(intent);
     }
+
+
+
+    // ---------------- Methoden zum Darstellen von Informationen -------------
+    public View createDeviceCard(String name, String type, boolean isSensor) {
+        CardView card = new CardView(getApplicationContext());
+
+        // Set Padding so different CardViews don't stick together
+        card.setUseCompatPadding(true);
+
+        // Add LinearLayout and TextViews to the Card
+        card.addView(
+                (createLinearLayout(
+                        createTextView(name, "black", 15),
+                        createTextView(type, "grey", 12),
+                        createTextView(isSensor?"Sensor":"Actor", "grey", 12)
+                )));
+
+        return card;
+    }
+
+    public TextView createTextView(String text, String color, float size) {
+        TextView textView = new TextView(getApplicationContext());
+
+        textView.setPadding(convertToDp(200), convertToDp(60), convertToDp(200), convertToDp(60));
+
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, size);
+        textView.setTextColor(Color.parseColor(color));
+        textView.setText(text);
+
+        return textView;
+    }
+
+    public LinearLayout createLinearLayout(TextView... textViews) {
+        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+
+        // Set linearLayout's orientation to vertical so the TextViews will be shown underneath each other
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setBackgroundColor(Color.WHITE);
+
+        for (TextView object : textViews)
+            linearLayout.addView(object);
+
+        return linearLayout;
+    }
+
+    public int convertToDp(int px) {
+        return (int) (px / this.getApplicationContext().getResources().getDisplayMetrics().density);
+    }
+
 
 }
