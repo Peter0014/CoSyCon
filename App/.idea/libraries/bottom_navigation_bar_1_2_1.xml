@@ -9,6 +9,7 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/CoSyCon/App/gradle/caches/modules-2/files-2.1/com.ashokvarma.android/bottom-navigation-bar/1.2.1/5796f47ab869fba2cbf92849d12ec164f66f252b/bottom-navigation-bar-1.2.1-sources.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ashokvarma.android/bottom-navigation-bar/1.2.1/5796f47ab869fba2cbf92849d12ec164f66f252b/bottom-navigation-bar-1.2.1-sources.jar!/" />
     </SOURCES>
   </library>
