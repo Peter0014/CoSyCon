@@ -9,72 +9,78 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".RoomConfig_lamp">
 
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="power"
-        android:id="@+id/powerbutton"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:checked="false" />
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Name"
         android:id="@+id/title"
-        android:layout_alignTop="@+id/powerbutton"
         android:layout_alignParentStart="true" />
 
-    <Space
-        android:layout_width="20px"
-        android:layout_height="20px"
-        android:layout_marginTop="140dp"
-        android:id="@+id/space"
-        android:layout_below="@+id/powerbutton"
-        android:layout_alignParentEnd="true" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rotate"
-        android:id="@+id/switch1"
-        android:layout_below="@+id/powerbutton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="55dp"
-        android:layout_alignParentStart="true"
-        android:checked="false" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Blink"
-        android:id="@+id/switch2"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/space"
-        android:layout_alignParentEnd="true"
-        android:checked="false" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/strength"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="81dp"
-        android:layout_toStartOf="@+id/space"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="50" />
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Intensity"
         android:id="@+id/strength"
-        android:layout_above="@+id/strength"
-        android:layout_marginBottom="31dp" />
+        android:layout_marginBottom="211dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/volume"
+        android:layout_alignTop="@+id/strength"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="66dp"
+        android:layout_alignParentEnd="true"
+        android:max="100"
+        android:indeterminate="false"
+        android:progress="0" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space3" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:layout_below="@+id/title"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Power"
+        android:id="@+id/powerbutton"
+        android:layout_below="@+id/space"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rotate"
+        android:id="@+id/rotate"
+        android:layout_below="@+id/powerbutton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="54dp"
+        android:layout_alignEnd="@+id/powerbutton"
+        android:checked="false" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blink"
+        android:id="@+id/blink"
+        android:layout_above="@+id/space3"
+        android:layout_alignParentStart="true"
+        android:checked="false" />
 
 </RelativeLayout>

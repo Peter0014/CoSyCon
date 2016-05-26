@@ -19,8 +19,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 public class MainActivity extends AppCompatActivity {
-
-    public final static String G_ID = "this id will be passed to RoomConfig";
     Context context;
     Toolbar toolbar;
     FloatingActionButton fab;
@@ -81,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         LinearLayout roomContent = (LinearLayout) room.findViewById(R.id.rooms_content),
                      scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
                      timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
@@ -91,9 +88,17 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
             String type = sp.getString("G" + i + "_itemtype", null);
+            String id = "G"+i;
             boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
-            // Verfügbare Objekte zum View hinzufügen
-            roomContent.addView(createDeviceCard(name, type, sensor));
+            View deviceview = createDeviceCard(name);
+            deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
+                @Override
+                public void onClick(View v) {
+                    switchToRoomConfig(type,id);
+                    finish();
+                }
+            });
+            roomContent.addView(deviceview);
         }
     }
 
@@ -139,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void switchPage()
     {
+
+
         Intent intent = null;
         // Check BottomBar position and open corresponding Activity
         if (bottomNavigationBar.getCurrentSelectedPosition() == 0)
@@ -150,6 +157,26 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent != null)
             startActivity(intent);
+        finish();
+    }
+    public void switchToRoomConfig(String type, String id)
+    {
+        Intent intent = null;
+        if(type.equals("Lamp"))
+        {
+            intent = new Intent(this,RoomConfig_lamp.class);
+
+        }
+        else if(type.equals("TV"))
+        {
+
+        }
+        else
+        {
+
+        }
+        intent.putExtra("GID",id);
+        startActivity(intent);
     }
 
 
@@ -167,6 +194,16 @@ public class MainActivity extends AppCompatActivity {
                         createTextView(name, "black", 15),
                         createTextView(type, "grey", 12),
                         createTextView(isSensor?"Sensor":"Actor", "grey", 12)
+                )));
+
+        return card;
+    }
+    public View createDeviceCard(String name) {
+        CardView card = new CardView(getApplicationContext());
+        card.setUseCompatPadding(true);
+        card.addView(
+                (createLinearLayout(
+                        createTextView(name, "black", 15)
                 )));
 
         return card;
