@@ -16,9 +16,10 @@
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/scenes_content">
 
         <TextView
             android:layout_width="wrap_content"
