@@ -65,7 +65,7 @@ public class Roomadd extends AppCompatActivity {
         addbutton = (Button)findViewById(R.id.addbutton);
 
     }
-    private boolean checkdata()
+    private boolean dataexist()
     {
         preferencessetting = getPreferences(0);
         if(preferencessetting.getString(id,null)!= null)
@@ -75,7 +75,7 @@ public class Roomadd extends AppCompatActivity {
     }
     private boolean savedata()
     {
-        if(checkdata())
+        if(!dataexist())
         {
             editor = preferencessetting.edit();
             editor.putString(id,id);
