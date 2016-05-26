@@ -61,6 +61,9 @@ public class Roomadd extends AppCompatActivity {
         preferencessetting = getPreferences(Context.MODE_PRIVATE);
 
     }
+    /*
+    
+     */
     private boolean dataexist()
     {
 
