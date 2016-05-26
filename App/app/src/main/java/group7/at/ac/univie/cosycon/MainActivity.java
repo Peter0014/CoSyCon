@@ -7,13 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.ashokvarma.bottomnavigation.*;
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static String G_ID = "this id will be passed to RoomConfig";
     Context context;
     Toolbar toolbar;
     FloatingActionButton fab;

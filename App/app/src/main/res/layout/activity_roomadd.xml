@@ -85,15 +85,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.07" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="type serial-ID here"
-            android:id="@+id/serialid"
-            android:layout_weight="0.07"
-             />
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

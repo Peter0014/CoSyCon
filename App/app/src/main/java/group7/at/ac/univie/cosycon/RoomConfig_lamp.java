@@ -1,5 +1,6 @@
 package group7.at.ac.univie.cosycon;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +28,8 @@ public class RoomConfig_lamp extends AppCompatActivity {
         initializeVariables();
 
         // get id which get passed by from mainactivity
-        //Integer.parseInt(getIntent().getStringExtra(MainActivity.class));
+        Intent main = getIntent();
+        id = main.getStringExtra(MainActivity.G_ID);
 
         preferencessetting = getPreferences(0);
         editor = preferencessetting.edit();
