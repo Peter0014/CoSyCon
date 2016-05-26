@@ -110,15 +110,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                switchpage();
+                switchPage();
             }
         });
 
     }
-    public void switchpage()
+    public void switchPage()
     {
-        Intent intent = new Intent(this, Roomadd.class);
-        startActivity(intent);
+        Intent intent = null;
+        // Check BottomBar position and open corresponding Activity
+        if (bottomNavigationBar.getCurrentSelectedPosition() == 0)
+            intent = new Intent(this, Roomadd.class);
+        else if (bottomNavigationBar.getCurrentSelectedPosition() == 1)
+            intent = new Intent(this, ScenesActivity.class);
+        else if (bottomNavigationBar.getCurrentSelectedPosition() == 2)
+            intent = new Intent(this, TimelineActivity.class);
+
+        if (intent != null)
+            startActivity(intent);
     }
 
 }
