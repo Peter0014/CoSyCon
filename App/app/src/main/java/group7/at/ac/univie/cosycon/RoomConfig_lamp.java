@@ -30,7 +30,7 @@ public class RoomConfig_lamp extends AppCompatActivity {
         // get id which get passed by from mainactivity
         Intent main = getIntent();
         id = main.getStringExtra(MainActivity.GID);
-
+        System.out.println("ID = " + id);
         preferencessetting = getPreferences(0);
         editor = preferencessetting.edit();
         name = preferencessetting.getString(id+"_name","no name");
@@ -84,6 +84,7 @@ public class RoomConfig_lamp extends AppCompatActivity {
 
             }
         });
+
     }
     private void initializeVariables()
     {
@@ -91,5 +92,13 @@ public class RoomConfig_lamp extends AppCompatActivity {
         rotate = (Switch)findViewById(R.id.switch1);
         blink = (Switch)findViewById(R.id.switch2);
         volume = (SeekBar)findViewById(R.id.strength);
+        title = (TextView)findViewById(R.id.title);
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 }

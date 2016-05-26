@@ -4,7 +4,7 @@
     <string name="title_activity_scenes">Add Scene</string>
     <string name="title_activity_timeline">Add TimeLine</string>
     <string name="gtype_prompt">Choose a type</string>
-    <string-array name="itemtypes">
+    <string-array name="items">
         <item>Lamp</item>
         <item>Music</item>
         <item>TV</item>

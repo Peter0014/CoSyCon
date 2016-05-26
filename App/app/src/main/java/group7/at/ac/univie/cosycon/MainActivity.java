@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         LinearLayout roomContent = (LinearLayout) room.findViewById(R.id.rooms_content),
                      scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
                      timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
@@ -90,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
-            final String type = sp.getString("G" + i + "_itemtype", null);
-            final String id = sp.getString("G" + i,null);
+            String type = sp.getString("G" + i + "_itemtype", null);
+            String id = sp.getString("G" + i,null);
             boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
             View deviceview = createDeviceCard(name);
-            deviceview.setOnClickListener(new View.OnClickListener() {
+            deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
                 @Override
                 public void onClick(View v) {
                     switchToRoomConfig(type,id);
@@ -146,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void switchPage()
     {
+
+
         Intent intent = null;
         // Check BottomBar position and open corresponding Activity
         if (bottomNavigationBar.getCurrentSelectedPosition() == 0)
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent != null)
             startActivity(intent);
+        finish();
     }
     public void switchToRoomConfig(String type, String id)
     {

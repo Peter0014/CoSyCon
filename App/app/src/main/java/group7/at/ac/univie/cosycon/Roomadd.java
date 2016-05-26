@@ -2,8 +2,10 @@ package group7.at.ac.univie.cosycon;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +23,7 @@ public class Roomadd extends AppCompatActivity {
     RadioButton issensor;
     Button addbutton;
 
+    private long mLastClickTime = 0;
     String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +35,31 @@ public class Roomadd extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                addbutton.setEnabled(false);
                 if(gname.getText().toString().trim().length()<=0)
                 {
                     warn("adding requires name");
                 }
                 else
                 {
+
                     if(savedata())
-                        success("successfully adding object");
+                    {
+                        addbutton.setEnabled(true);
+                        //success("successfully adding object");
+                        switchpage();
+                    }
+
                     else
+                    {
+                        addbutton.setEnabled(true);
                         warn("this serial id is already exist. type in a new one");
+                    }
+
 
                 }
 
@@ -90,6 +108,8 @@ public class Roomadd extends AppCompatActivity {
     public void switchpage()
     {
         finish();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
     public void warn(String message)
     {
@@ -121,6 +141,13 @@ public class Roomadd extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 };
 
