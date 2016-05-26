@@ -2,9 +2,10 @@ package group7.at.ac.univie.cosycon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,20 +14,20 @@ import android.widget.Spinner;
 
 public class Roomadd extends AppCompatActivity {
 
+    private SharedPreferences preferencessetting;
+    private SharedPreferences.Editor editor;
     EditText gname, serialid;
     Spinner itemtype;
     RadioButton issensor;
     Button addbutton;
-    G object;
+
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roomadd);
 
         initializeVariables();
-        //G object = new G(serialid.getText().toString(), gname.getText().toString(), ItemTyp.valueOf(itemtype.getSelectedItem().toString()),issensor.isChecked());
-
-        object = new G(serialid.getText().toString(), gname.getText().toString(), ItemTyp.valueOf(itemtype.getSelectedItem().toString()),issensor.isChecked());
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -41,8 +42,11 @@ public class Roomadd extends AppCompatActivity {
                 }
                 else
                 {
-                    savedata(object);
-                    success("successfully adding object");
+                    id = serialid.getText().toString();
+                    if(savedata())
+                        success("successfully adding object");
+                    else
+                        warn("this serial id is already exist. type in a new one");
 
                 }
 
@@ -59,16 +63,26 @@ public class Roomadd extends AppCompatActivity {
         itemtype = (Spinner)findViewById(R.id.itemtyp);
         issensor = (RadioButton)findViewById(R.id.issensor);
         addbutton = (Button)findViewById(R.id.addbutton);
+
     }
-    private boolean checkdata(G g)
+    private boolean checkdata()
     {
-        return true;
+        preferencessetting = getPreferences(0);
+        if(preferencessetting.getString(id,null)!= null)
+            return true;
+        else
+            return false;
     }
-    private boolean savedata(G g)
+    private boolean savedata()
     {
-        if(checkdata(g))
+        if(checkdata())
         {
-            // add in data layer
+            editor = preferencessetting.edit();
+            editor.putString(id,id);
+            editor.putString(id+"_name",gname.getText().toString());
+            editor.putString(id+"_itemtype",itemtype.getSelectedItem().toString());
+            editor.putBoolean(id+"_issensor",issensor.isChecked());
+            editor.commit();
             return true;
         }
         else
@@ -76,7 +90,7 @@ public class Roomadd extends AppCompatActivity {
     }
     public void switchpage()
     {
-        Intent intent = new Intent(this, Roomsetting.class);
+        Intent intent = new Intent(this, RoomConfig_lamp.class);
         startActivity(intent);
     }
     public void warn(String message)
