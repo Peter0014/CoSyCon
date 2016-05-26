@@ -1,5 +1,6 @@
 package group7.at.ac.univie.cosycon;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,7 +35,7 @@ public class Roomadd extends AppCompatActivity {
             {
                 if(gname.getText().toString().trim().length()<=0)
                 {
-                    warn("adding requires serial-id");
+                    warn("adding requires name");
                 }
                 else
                 {
@@ -57,11 +58,12 @@ public class Roomadd extends AppCompatActivity {
         itemtype = (Spinner)findViewById(R.id.itemtyp);
         issensor = (RadioButton)findViewById(R.id.issensor);
         addbutton = (Button)findViewById(R.id.addbutton);
+        preferencessetting = getPreferences(Context.MODE_PRIVATE);
 
     }
     private boolean dataexist()
     {
-        preferencessetting = getPreferences(0);
+
         if(preferencessetting.getString("G"+id+"_name",null)!= null)
             return true;
         else
@@ -87,7 +89,7 @@ public class Roomadd extends AppCompatActivity {
     }
     public void switchpage()
     {
-        Intent intent = new Intent(this, RoomConfig_lamp.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
     public void warn(String message)
