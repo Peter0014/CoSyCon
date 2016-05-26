@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -15,10 +14,10 @@ public class RoomConfig_lamp extends AppCompatActivity {
     private SharedPreferences preferencessetting;
     SharedPreferences.Editor editor;
     TextView title;
-    Button powerbutton;
+    Switch powerbutton;
     Switch rotate, blink;
     SeekBar volume;
-    String id, name;
+    String id = "", name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +28,16 @@ public class RoomConfig_lamp extends AppCompatActivity {
 
         // get id which get passed by from mainactivity
         Intent main = getIntent();
-        id = main.getStringExtra(MainActivity.GID);
-        System.out.println("ID = " + id);
+        Bundle extras = main.getExtras();
+        if (extras != null) {
+            id = extras.getString("GID");
+        }
         preferencessetting = getPreferences(0);
         editor = preferencessetting.edit();
-        name = preferencessetting.getString(id+"_name","no name");
+        name = preferencessetting.getString(id+"_name",id);
         title.setText(name);
         ///////////// Power button
-
+        setDefaultState();
         powerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +89,22 @@ public class RoomConfig_lamp extends AppCompatActivity {
     }
     private void initializeVariables()
     {
-        powerbutton = (Button)findViewById(R.id.powerbutton);
-        rotate = (Switch)findViewById(R.id.switch1);
-        blink = (Switch)findViewById(R.id.switch2);
-        volume = (SeekBar)findViewById(R.id.strength);
+        powerbutton = (Switch) findViewById(R.id.powerbutton);
+        rotate = (Switch)findViewById(R.id.rotate);
+        blink = (Switch)findViewById(R.id.blink);
+        volume = (SeekBar)findViewById(R.id.volume);
         title = (TextView)findViewById(R.id.title);
+    }
+    private void setDefaultState()
+    {
+        boolean power = preferencessetting.getBoolean(id+"_power",false);
+        powerbutton.setChecked(power);
+        boolean rotating = preferencessetting.getBoolean(id+"_rotate",false);
+        rotate.setChecked(rotating);
+        boolean blinking = preferencessetting.getBoolean(id+"_blink",false);
+        blink.setChecked(blinking);
+        int vol = preferencessetting.getInt(id+"_volume",0);
+        volume.setProgress(vol);
     }
     @Override
     public void onBackPressed() {

@@ -19,8 +19,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 public class MainActivity extends AppCompatActivity {
-
-    public final static String GID = "GID";
     Context context;
     Toolbar toolbar;
     FloatingActionButton fab;
@@ -90,13 +88,14 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
             String type = sp.getString("G" + i + "_itemtype", null);
-            String id = sp.getString("G" + i,null);
+            String id = "G"+i;
             boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
             View deviceview = createDeviceCard(name);
             deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
                 @Override
                 public void onClick(View v) {
                     switchToRoomConfig(type,id);
+                    finish();
                 }
             });
             roomContent.addView(deviceview);
@@ -166,8 +165,7 @@ public class MainActivity extends AppCompatActivity {
         if(type.equals("Lamp"))
         {
             intent = new Intent(this,RoomConfig_lamp.class);
-            intent.putExtra(GID,id);
-            startActivity(intent);
+
         }
         else if(type.equals("TV"))
         {
@@ -177,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
         {
 
         }
+        intent.putExtra("GID",id);
+        startActivity(intent);
     }
 
 
