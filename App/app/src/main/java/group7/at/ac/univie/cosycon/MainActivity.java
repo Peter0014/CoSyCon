@@ -20,7 +20,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String G_ID = "this id will be passed to RoomConfig";
+    public final static String GID = "GID";
     Context context;
     Toolbar toolbar;
     FloatingActionButton fab;
@@ -90,10 +90,17 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
-            String type = sp.getString("G" + i + "_itemtype", null);
+            final String type = sp.getString("G" + i + "_itemtype", null);
+            final String id = sp.getString("G" + i,null);
             boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
-            // Verfügbare Objekte zum View hinzufügen
-            roomContent.addView(createDeviceCard(name, type, sensor));
+            View deviceview = createDeviceCard(name);
+            deviceview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchToRoomConfig(type,id);
+                }
+            });
+            roomContent.addView(deviceview);
         }
     }
 
@@ -151,6 +158,24 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null)
             startActivity(intent);
     }
+    public void switchToRoomConfig(String type, String id)
+    {
+        Intent intent = null;
+        if(type.equals("Lamp"))
+        {
+            intent = new Intent(this,RoomConfig_lamp.class);
+            intent.putExtra(GID,id);
+            startActivity(intent);
+        }
+        else if(type.equals("TV"))
+        {
+
+        }
+        else
+        {
+
+        }
+    }
 
 
 
@@ -167,6 +192,16 @@ public class MainActivity extends AppCompatActivity {
                         createTextView(name, "black", 15),
                         createTextView(type, "grey", 12),
                         createTextView(isSensor?"Sensor":"Actor", "grey", 12)
+                )));
+
+        return card;
+    }
+    public View createDeviceCard(String name) {
+        CardView card = new CardView(getApplicationContext());
+        card.setUseCompatPadding(true);
+        card.addView(
+                (createLinearLayout(
+                        createTextView(name, "black", 15)
                 )));
 
         return card;

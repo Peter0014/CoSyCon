@@ -2,7 +2,6 @@ package group7.at.ac.univie.cosycon;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -90,8 +89,7 @@ public class Roomadd extends AppCompatActivity {
     }
     public void switchpage()
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
     public void warn(String message)
     {
@@ -123,7 +121,6 @@ public class Roomadd extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-
     }
 };
 

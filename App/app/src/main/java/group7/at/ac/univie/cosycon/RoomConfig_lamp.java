@@ -29,7 +29,7 @@ public class RoomConfig_lamp extends AppCompatActivity {
 
         // get id which get passed by from mainactivity
         Intent main = getIntent();
-        id = main.getStringExtra(MainActivity.G_ID);
+        id = main.getStringExtra(MainActivity.GID);
 
         preferencessetting = getPreferences(0);
         editor = preferencessetting.edit();
