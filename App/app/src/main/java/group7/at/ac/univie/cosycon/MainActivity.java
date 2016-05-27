@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             String type = sp.getString("G" + i + "_itemtype", null);
             String id = "G"+i;
             boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
-            View deviceview = createDeviceCard(name);
+            View deviceview = createDeviceCard(name+" "+type);
             deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
                 @Override
                 public void onClick(View v) {
