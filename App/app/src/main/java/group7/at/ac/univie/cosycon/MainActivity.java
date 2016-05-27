@@ -173,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
         {
             intent = new Intent(this,Roomconfig_TV.class);
         }
-        else
+        else if(type.equals("Music"))
         {
-
+            intent = new Intent(this,RoomConfig_Music.class);
         }
         intent.putExtra("GID",id);
         startActivity(intent);
