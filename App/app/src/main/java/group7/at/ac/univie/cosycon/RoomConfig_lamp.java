@@ -1,10 +1,12 @@
 package group7.at.ac.univie.cosycon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ public class RoomConfig_lamp extends AppCompatActivity {
     Switch rotate, blink;
     SeekBar volume;
     String id = "", name;
+    Button deletebutton,savebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,7 @@ public class RoomConfig_lamp extends AppCompatActivity {
         if (extras != null) {
             id = extras.getString("GID");
         }
-        preferencessetting = getPreferences(0);
-        editor = preferencessetting.edit();
+
         name = preferencessetting.getString(id+"_name",id);
         title.setText(name);
         ///////////// Power button
@@ -85,6 +87,21 @@ public class RoomConfig_lamp extends AppCompatActivity {
 
             }
         });
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.remove(id+"_name");
+                editor.remove(id+"_itemtype");
+                editor.commit();
+                BacktoMain();
+            }
+        });
+        savebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BacktoMain();
+            }
+        });
 
     }
     private void initializeVariables()
@@ -94,6 +111,10 @@ public class RoomConfig_lamp extends AppCompatActivity {
         blink = (Switch)findViewById(R.id.blink);
         volume = (SeekBar)findViewById(R.id.volume);
         title = (TextView)findViewById(R.id.title);
+        deletebutton = (Button)findViewById(R.id.deletebutton);
+        savebutton = (Button)findViewById(R.id.savebutton);
+        preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
+        editor = preferencessetting.edit();
     }
     private void setDefaultState()
     {
@@ -106,11 +127,14 @@ public class RoomConfig_lamp extends AppCompatActivity {
         int vol = preferencessetting.getInt(id+"_volume",0);
         volume.setProgress(vol);
     }
-    @Override
-    public void onBackPressed() {
+    private void BacktoMain()
+    {
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
-
+    }
+    @Override
+    public void onBackPressed() {
+        BacktoMain();
     }
 }

@@ -89,18 +89,21 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
-            String type = sp.getString("G" + i + "_itemtype", null);
-            String id = "G"+i;
-            boolean sensor = sp.getBoolean("G" + i + "_isSensor", false);
-            View deviceview = createDeviceCard(name+" "+type);
-            deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
-                @Override
-                public void onClick(View v) {
-                    switchToRoomConfig(type,id);
-                    finish();
-                }
-            });
-            roomContent.addView(deviceview);
+            if(name!=null)
+            {
+                String type = sp.getString("G" + i + "_itemtype", null);
+                String id = "G"+i;
+                View deviceview = createDeviceCard(name+" "+type);
+                deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
+                    @Override
+                    public void onClick(View v) {
+                        switchToRoomConfig(type,id);
+                        finish();
+                    }
+                });
+                roomContent.addView(deviceview);
+            }
+
         }
     }
 

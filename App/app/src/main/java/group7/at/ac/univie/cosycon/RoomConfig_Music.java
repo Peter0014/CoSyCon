@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class RoomConfig_Music extends AppCompatActivity {
     TextView volvalue,title;
     Button play,next,back,random,stop;
     String id ="",name;
+    Button deletebutton,savebutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,23 @@ public class RoomConfig_Music extends AppCompatActivity {
             }
         });
 
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.remove(id+"_name");
+                editor.remove(id+"_itemtype");
+                editor.commit();
+                BacktoMain();
+            }
+        });
+        savebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BacktoMain();
+            }
+        });
+
+
     }
     private void initializeVariables()
     {
@@ -63,14 +82,19 @@ public class RoomConfig_Music extends AppCompatActivity {
         back = (Button)findViewById(R.id.previousbutton);
         random = (Button)findViewById(R.id.randombutton);
         stop = (Button)findViewById(R.id.stop);
-        preferencessetting = getPreferences(Context.MODE_PRIVATE);
+        deletebutton = (Button)findViewById(R.id.deletebutton);
+        savebutton = (Button)findViewById(R.id.savebutton);
+        preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         editor = preferencessetting.edit();
     }
-    @Override
-    public void onBackPressed() {
+    private void BacktoMain()
+    {
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
-
+    }
+    @Override
+    public void onBackPressed() {
+        BacktoMain();
     }
 }

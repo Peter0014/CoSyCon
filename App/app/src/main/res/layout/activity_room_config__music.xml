@@ -157,4 +157,22 @@
         android:layout_alignTop="@+id/volumetext"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/volumetext" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/deletebutton"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/volume"
+        android:layout_toStartOf="@+id/volvalue"
+        android:layout_marginEnd="60dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/savebutton"
+        android:layout_alignTop="@+id/deletebutton"
+        android:layout_toEndOf="@+id/volumetext" />
 </RelativeLayout>

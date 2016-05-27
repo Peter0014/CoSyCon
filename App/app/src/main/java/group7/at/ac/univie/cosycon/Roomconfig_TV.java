@@ -1,5 +1,6 @@
 package group7.at.ac.univie.cosycon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ public class Roomconfig_TV extends AppCompatActivity {
 
     private SharedPreferences preferencessetting;
     SharedPreferences.Editor editor;
-    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,chplus,chminus,volplus,volminus;
+    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,chplus,chminus,volplus,volminus,deletebutton,savebutton;
     TextView title, currentcanal;
     String id = "", name;
     @Override
@@ -28,11 +29,10 @@ public class Roomconfig_TV extends AppCompatActivity {
         if (extras != null) {
             id = extras.getString("GID");
         }
-        preferencessetting = getPreferences(0);
-        editor = preferencessetting.edit();
+
         name = preferencessetting.getString(id+"_name",id);
         title.setText(name);
-
+        currentcanal.setText(String.valueOf(preferencessetting.getInt(id+"_canal",0)));
         b0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,7 +157,21 @@ public class Roomconfig_TV extends AppCompatActivity {
 
             }
         });
-
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.remove(id+"_name");
+                editor.remove(id+"_itemtype");
+                editor.commit();
+                BacktoMain();
+            }
+        });
+        savebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BacktoMain();
+            }
+        });
 
     }
 
@@ -177,14 +191,21 @@ public class Roomconfig_TV extends AppCompatActivity {
         chminus = (Button)findViewById(R.id.chminus);
         volplus = (Button)findViewById(R.id.volplus);
         volminus = (Button)findViewById(R.id.volminus);
+        deletebutton = (Button)findViewById(R.id.deletebutton);
+        savebutton = (Button)findViewById(R.id.savebutton);
         title = (TextView)findViewById(R.id.title);
         currentcanal = (TextView)findViewById(R.id.currentcanal);
+        preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
+        editor = preferencessetting.edit();
     }
-    @Override
-    public void onBackPressed() {
+    private void BacktoMain()
+    {
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
-
+    }
+    @Override
+    public void onBackPressed() {
+        BacktoMain();
     }
 }
