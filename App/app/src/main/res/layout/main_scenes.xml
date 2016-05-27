@@ -15,20 +15,25 @@
     tools:context="group7.at.ac.univie.cosycon.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scenes_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="Scenes" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scenes_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="Scenes" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

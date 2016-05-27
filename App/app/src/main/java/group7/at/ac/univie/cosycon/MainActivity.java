@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Beispiel. Iterieren durch alle Elemente und Informationen extrahieren
 
+        roomContent.removeAllViewsInLayout();
+
         for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
             String name = sp.getString("G" + i + "_name", null);
             String type = sp.getString("G" + i + "_itemtype", null);

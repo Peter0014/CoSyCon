@@ -15,19 +15,25 @@
     tools:context="group7.at.ac.univie.cosycon.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/timeline_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="TimeLines" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/timeline_content">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="TimeLines" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>
