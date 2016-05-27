@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(type.equals("TV"))
         {
-
+            intent = new Intent(this,Roomconfig_TV.class);
         }
         else
         {
