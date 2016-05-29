@@ -96,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
         showRoomContent(roomContent);
         showScenesContent(scenesContent);
 
+<<<<<<< HEAD
         }
+=======
+    }
+>>>>>>> 1f286f5a3750a7c496a73c3944aab66229b0a336
 
     private void initializeVariables() {
         // Get and set actual context
@@ -208,7 +212,11 @@ public class MainActivity extends AppCompatActivity {
             String name = scene_sp.getString("S" + i + "_name", null);
             if(name!=null) {
                 String id = "S"+i;
+<<<<<<< HEAD
                 View sceneView = createDeviceCard(name,false);
+=======
+                View sceneView = createDeviceCard(name, "", false);
+>>>>>>> 1f286f5a3750a7c496a73c3944aab66229b0a336
                 sceneView.setOnClickListener(new DeviceOnClickListener(id) {
                     @Override
                     public void onClick(View v) {
