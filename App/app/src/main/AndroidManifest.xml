@@ -31,13 +31,7 @@
             android:name=".RoomsActivity"
             android:label="Rooms"
             android:theme="@style/AppTheme" />
-<<<<<<< HEAD
-        <activity android:name=".RoomConfig_lamp" />
-        <activity android:name=".Roomadd" />
-        <activity android:name=".Roomconfig_TV" />
-        <activity android:name=".RoomConfig_Music" />
-        <activity android:name=".SceneConfig"></activity>
-=======
+
         <activity android:name=".RoomConfig_lamp"
             android:label="Lamp Config"
             android:theme="@style/AppTheme" />
@@ -50,7 +44,6 @@
         <activity android:name=".RoomConfig_Music"
             android:label="Music Config"
             android:theme="@style/AppTheme" />
->>>>>>> bb79daab746f84c646d37f458a802ae7d565ee16
     </application>
 
 </manifest>
