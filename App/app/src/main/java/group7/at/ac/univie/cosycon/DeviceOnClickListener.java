@@ -13,7 +13,9 @@ public class DeviceOnClickListener implements View.OnClickListener{
         this.id = id;
         this.type = type;
     }
-
+    public DeviceOnClickListener(String id) {
+        this.id = id;
+    }
     @Override
     public void onClick(View v) {
         // dont do shit here

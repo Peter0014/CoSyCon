@@ -29,11 +29,9 @@
                 android:id="@+id/scenes_toolbar_title" />
 
             </android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
 
-    <!--
-        ! Content !
-    -->
+
+
 
 </android.support.design.widget.CoordinatorLayout>

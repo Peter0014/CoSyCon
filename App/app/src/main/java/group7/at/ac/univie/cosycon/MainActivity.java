@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     BottomNavigationBar bottomNavigationBar;
     RelativeLayout scenes, timeline, room;
-    SharedPreferences sp;
+    SharedPreferences room_sp, scene_sp;
 
 
     @Override
@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
         roomContent.removeAllViewsInLayout();
 
-        for (int i = 0; i < sp.getInt("G_Array_len",0); i++) {
-            String name = sp.getString("G" + i + "_name", null);
+        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
+            String name = room_sp.getString("G" + i + "_name", null);
             if(name!=null)
             {
-                String type = sp.getString("G" + i + "_itemtype", null);
+                String type = room_sp.getString("G" + i + "_itemtype", null);
                 String id = "G"+i;
                 View deviceview = createDeviceCard(name+" "+type);
                 deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
@@ -105,12 +105,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+
+        scenesContent.removeAllViewsInLayout();
+
+        for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
+            String name = scene_sp.getString("S" + i + "_name", null);
+            if(name!=null)
+            {
+                String id = "S"+i;
+                View deviceview = createDeviceCard(name);
+                deviceview.setOnClickListener(new DeviceOnClickListener(id) {
+                    @Override
+                    public void onClick(View v) {
+                        switchToSceneConfig(id);
+                        finish();
+                    }
+                });
+                scenesContent.addView(deviceview);
+            }
+
+        }
     }
 
     private void initializeVariables() {
         // Get and set actual context
         context = getApplicationContext();
-        sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
+        room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
+        scene_sp = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
 
         // Find Content Views
         room = (RelativeLayout) findViewById(R.id.main_rooms);
@@ -183,7 +204,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("GID",id);
         startActivity(intent);
     }
-
+    public void switchToSceneConfig(String id)
+    {
+        Intent intent = new Intent(this,ScenesActivity.class);
+        intent.putExtra("GID",id);
+        startActivity(intent);
+    }
 
 
     // ---------------- Methoden zum Darstellen von Informationen -------------
