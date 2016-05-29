@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         showScenesContent(scenesContent);
 
         }
-    }
 
     private void initializeVariables() {
         // Get and set actual context
@@ -203,18 +202,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showScenesContent(LinearLayout scenesContent) {
+        LinearLayout horizLayout = null;
+        int success = 0;
         for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
             String name = scene_sp.getString("S" + i + "_name", null);
             if(name!=null) {
                 String id = "S"+i;
-                View sceneView = createDeviceCard(name, type, false);
-                sceneView.setOnClickListener(new DeviceOnClickListener(id,type) {
+                View sceneView = createDeviceCard(name,false);
+                sceneView.setOnClickListener(new DeviceOnClickListener(id) {
                     @Override
                     public void onClick(View v) {
-                        switchToRoomConfig(type,id);
+                        switchToSceneConfig(id);
                     }
                 });
-                scenesContent.addView(sceneView);
+                if (success % 2 == 0){
+                    horizLayout = createLinearLayout(false);
+                    scenesContent.addView(horizLayout);
+                }
+                horizLayout.addView(sceneView);
+                success++;
             }
         }
     }
@@ -252,7 +258,36 @@ public class MainActivity extends AppCompatActivity {
 
         return card;
     }
+    private View createDeviceCard(String name,boolean size) {
+        CardView card = new CardView(getApplicationContext());
 
+        card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+
+        // Add LinearLayout and TextViews to the Card
+        card.addView(
+                createLinearLayout(
+                        true,
+                        createTextView(name, "black", 10)
+                )
+        );
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        size ? LinearLayout.LayoutParams.WRAP_CONTENT : LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        0
+                );
+        cardParams.setMargins(
+                convertDpToPixel(30),
+                convertDpToPixel(5),
+                convertDpToPixel(30),
+                convertDpToPixel(5)
+        );
+
+        card.setLayoutParams(cardParams);
+
+        return card;
+    }
     private ImageView createImageView(String type) {
         ImageView imageView = new ImageView(context);
 
