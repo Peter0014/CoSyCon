@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     public void switchToSceneConfig(String id)
     {
         Intent intent = new Intent(this,SceneConfig.class);
-        intent.putExtra("GID",id);
+        intent.putExtra("SID",id);
         startActivity(intent);
     }
 
