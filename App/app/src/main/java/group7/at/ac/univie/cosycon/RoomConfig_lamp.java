@@ -93,13 +93,13 @@ public class RoomConfig_lamp extends AppCompatActivity {
                 editor.remove(id+"_name");
                 editor.remove(id+"_itemtype");
                 editor.commit();
-                BacktoMain();
+                finish();
             }
         });
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BacktoMain();
+                finish();
             }
         });
 
@@ -126,15 +126,5 @@ public class RoomConfig_lamp extends AppCompatActivity {
         blink.setChecked(blinking);
         int vol = preferencessetting.getInt(id+"_volume",0);
         volume.setProgress(vol);
-    }
-    private void BacktoMain()
-    {
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    @Override
-    public void onBackPressed() {
-        BacktoMain();
     }
 }

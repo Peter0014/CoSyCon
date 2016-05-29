@@ -4,23 +4,38 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ScenesActivity extends AppCompatActivity {
 
     private SharedPreferences preferencessetting;
-    private SharedPreferences.Editor editor;
+    SharedPreferences room_sp;
+    String sceneId;
     EditText name;
     Button savebutton;
     Context context;
     Toolbar toolbar;
+    LinearLayout devices;
+    ArrayList<String> changedDevices;
 
     String id;
     private long mLastClickTime = 0;
@@ -33,6 +48,9 @@ public class ScenesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scenes_add);
 
         initializeVariables();
+
+        showRoomContent(devices);
+
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -52,7 +70,7 @@ public class ScenesActivity extends AppCompatActivity {
                     if(savedata())
                     {
                         savebutton.setEnabled(true);
-                        switchpage();
+                        finish();
                     }
 
                     else
@@ -74,31 +92,44 @@ public class ScenesActivity extends AppCompatActivity {
         // Set toolbar and set it at ActionBar
         toolbar = (Toolbar) findViewById(R.id.scenes_toolbar);
         setSupportActionBar(toolbar);
+
         savebutton = (Button)findViewById(R.id.savebutton);
         name = (EditText)findViewById(R.id.name);
         preferencessetting = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
-        editor = preferencessetting.edit();
+        room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
+        devices = (LinearLayout) findViewById(R.id.add_scene_devices);
 
+        Intent main = getIntent();
+        Bundle extras = main.getExtras();
+        changedDevices = new ArrayList<>();
+        if (extras != null) {
+            sceneId = extras.getString("SID");
+            changedDevices = new ArrayList<>(
+                    Arrays.asList(
+                            preferencessetting.getString(
+                                    sceneId+"_devices", null).split(",\\s*")));
+            name.setText(preferencessetting.getString(sceneId+"_name", null));
+        }
 
     }
     private boolean dataexist()
     {
-
-        if(preferencessetting.getString("S"+id+"_name",null)!= null)
-            return true;
-        else
-            return false;
+        return preferencessetting.getString("S"+id+"_name",null)!= null;
     }
     private boolean savedata()
     {
         int idnum = preferencessetting.getInt("S_Array_len",0);
         id = "S" + idnum;
+        String deviceIds = "";
+        for (String deviceId : changedDevices)
+            deviceIds += deviceId + ", ";
         if(!dataexist())
         {
-            editor = preferencessetting.edit();
+            SharedPreferences.Editor editor = preferencessetting.edit();
             editor.putString(id+"_name",name.getText().toString());
             editor.putInt("S_Array_len",++idnum);
-            editor.commit();
+            editor.putString(id+"_devices",deviceIds);
+            editor.apply();
             return true;
         }
         else
@@ -129,24 +160,154 @@ public class ScenesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        switchpage();
+                        finish();
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
     }
-    public void switchpage()
+
+    public void showRoomContent (LinearLayout roomContent) {
+        LinearLayout horizLayout = null;
+        int success = 0;
+
+        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
+            String name = room_sp.getString("G" + i + "_name", null);
+            if(name!=null) {
+                String type = room_sp.getString("G" + i + "_itemtype", null);
+                String id = "G"+i;
+                View deviceView = createDeviceCard(name, type, true);
+                if (changedDevices.contains(id))
+                    deviceView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                deviceView.setOnClickListener(new DeviceOnClickListener(id,type) {
+                    @Override
+                    public void onClick(View v) {
+                        switchToRoomConfig(type,id);
+                        v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                        changedDevices.add(id);
+                    }
+                });
+                if (success % 2 == 0){
+                    horizLayout = createLinearLayout(false);
+                    roomContent.addView(horizLayout);
+                }
+                horizLayout.addView(deviceView);
+                success++;
+            }
+        }
+    }
+
+    private void switchToRoomConfig(String type, String id)
     {
-        finish();
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = null;
+        if(type.equals("Lamp"))
+            intent = new Intent(this,RoomConfig_lamp.class);
+        else if(type.equals("TV"))
+            intent = new Intent(this,Roomconfig_TV.class);
+        else if(type.equals("Music"))
+            intent = new Intent(this,RoomConfig_Music.class);
+
+        intent.putExtra("GID",id);
         startActivity(intent);
     }
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
 
+    private View createDeviceCard(String name, String type, boolean size) {
+        CardView card = new CardView(getApplicationContext());
+
+        card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+
+        // Add LinearLayout and TextViews to the Card
+        if (type.equals("")) {
+            card.addView(
+                    createLinearLayout(
+                            true,
+                            createTextView(name, "black", 10)
+                    )
+            );
+        } else {
+            card.addView(
+                    createLinearLayout(
+                            true,
+                            createTextView(name, "black", 10),
+                            createImageView(type),
+                            createTextView(type, "black", 8)
+                    )
+            );
+        }
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        size ? LinearLayout.LayoutParams.WRAP_CONTENT : LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        0
+                );
+        cardParams.setMargins(
+                convertDpToPixel(30),
+                convertDpToPixel(5),
+                convertDpToPixel(30),
+                convertDpToPixel(5)
+        );
+
+        card.setLayoutParams(cardParams);
+
+        return card;
+    }
+
+    private ImageView createImageView(String type) {
+        ImageView imageView = new ImageView(context);
+
+        if(type.equals("Lamp"))
+            imageView.setImageResource(R.drawable.lamp_hue);
+        else if(type.equals("TV"))
+            imageView.setImageResource(R.drawable.tv);
+        else if(type.equals("Music"))
+            imageView.setImageResource(R.drawable.music_hifi);
+        else
+            imageView.setImageResource(R.drawable.not_found);
+
+        imageView.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        convertDpToPixel(80),
+                        convertDpToPixel(80),
+                        0
+                )
+        );
+
+        return imageView;
+    }
+
+    private TextView createTextView(String text, String color, float size) {
+        TextView textView = new TextView(getApplicationContext());
+
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, size);
+        textView.setTextColor(Color.parseColor(color));
+        textView.setText(text);
+        textView.setGravity(Gravity.CENTER);
+
+        return textView;
+    }
+
+    private LinearLayout createLinearLayout(boolean vertHor, View... Views) {
+        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+
+        linearLayout.setPadding(
+                convertDpToPixel(10),
+                convertDpToPixel(10),
+                convertDpToPixel(10),
+                convertDpToPixel(10)
+        );
+
+        // Set linearLayout's orientation to vertical so the TextViews will be shown underneath each other
+        linearLayout.setOrientation(vertHor ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
+
+        for (View object : Views)
+            linearLayout.addView(object);
+
+        return linearLayout;
+    }
+
+    public int convertDpToPixel(int dp) {
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics()));
     }
 
 }

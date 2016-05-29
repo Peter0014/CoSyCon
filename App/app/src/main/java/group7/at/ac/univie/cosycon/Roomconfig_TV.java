@@ -163,13 +163,13 @@ public class Roomconfig_TV extends AppCompatActivity {
                 editor.remove(id+"_name");
                 editor.remove(id+"_itemtype");
                 editor.commit();
-                BacktoMain();
+                finish();
             }
         });
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BacktoMain();
+                finish();
             }
         });
 
@@ -197,15 +197,5 @@ public class Roomconfig_TV extends AppCompatActivity {
         currentcanal = (TextView)findViewById(R.id.currentcanal);
         preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         editor = preferencessetting.edit();
-    }
-    private void BacktoMain()
-    {
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    @Override
-    public void onBackPressed() {
-        BacktoMain();
     }
 }

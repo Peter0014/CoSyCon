@@ -24,12 +24,12 @@
             android:label="@string/title_activity_scenes"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".AddTimelineActivity"
-            android:label="@string/title_activity_timeline"
+            android:name=".SceneConfig"
+            android:label="Scene Config"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RoomsActivity"
-            android:label="Rooms"
+            android:name=".AddTimelineActivity"
+            android:label="@string/title_activity_timeline"
             android:theme="@style/AppTheme" />
 
         <activity android:name=".RoomConfig_lamp"

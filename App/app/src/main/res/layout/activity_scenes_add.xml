@@ -42,12 +42,27 @@
             android:layout_height="wrap_content"
             android:hint="Put Scene name here..."/>
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="450dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/add_scene_devices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                </LinearLayout>
+
+            </ScrollView>
+
         <Button
             android:id="@+id/savebutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="bottom|center_horizontal" />
 
     </LinearLayout>
 
