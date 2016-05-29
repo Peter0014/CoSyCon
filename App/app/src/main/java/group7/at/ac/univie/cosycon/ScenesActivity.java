@@ -60,8 +60,6 @@ public class ScenesActivity extends AppCompatActivity {
                         savebutton.setEnabled(true);
                         warn("this serial id is already exist. type in a new one");
                     }
-
-
                 }
 
             }
@@ -76,7 +74,8 @@ public class ScenesActivity extends AppCompatActivity {
         // Set toolbar and set it at ActionBar
         toolbar = (Toolbar) findViewById(R.id.scenes_toolbar);
         setSupportActionBar(toolbar);
-
+        savebutton = (Button)findViewById(R.id.savebutton);
+        name = (EditText)findViewById(R.id.name);
         preferencessetting = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
         editor = preferencessetting.edit();
 
@@ -98,7 +97,7 @@ public class ScenesActivity extends AppCompatActivity {
         {
             editor = preferencessetting.edit();
             editor.putString(id+"_name",name.getText().toString());
-            editor.putInt("G_Array_len",++idnum);
+            editor.putInt("S_Array_len",++idnum);
             editor.commit();
             return true;
         }
