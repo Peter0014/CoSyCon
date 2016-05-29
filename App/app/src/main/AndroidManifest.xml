@@ -16,7 +16,6 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,17 +24,25 @@
             android:label="@string/title_activity_scenes"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".TimelineActivity"
+            android:name=".AddTimelineActivity"
             android:label="@string/title_activity_timeline"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".RoomsActivity"
             android:label="Rooms"
             android:theme="@style/AppTheme" />
-        <activity android:name=".RoomConfig_lamp" />
-        <activity android:name=".Roomadd" />
-        <activity android:name=".Roomconfig_TV" />
-        <activity android:name=".RoomConfig_Music"></activity>
+        <activity android:name=".RoomConfig_lamp"
+            android:label="Lamp Config"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Roomadd"
+            android:label="Add Device"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Roomconfig_TV"
+            android:label="TV Config"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".RoomConfig_Music"
+            android:label="Music Config"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
