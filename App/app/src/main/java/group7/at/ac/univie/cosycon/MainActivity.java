@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         showRoomContent(roomContent);
         showScenesContent(scenesContent);
 
-        }
     }
 
     private void initializeVariables() {
@@ -207,11 +206,11 @@ public class MainActivity extends AppCompatActivity {
             String name = scene_sp.getString("S" + i + "_name", null);
             if(name!=null) {
                 String id = "S"+i;
-                View sceneView = createDeviceCard(name, type, false);
-                sceneView.setOnClickListener(new DeviceOnClickListener(id,type) {
+                View sceneView = createDeviceCard(name, "", false);
+                sceneView.setOnClickListener(new DeviceOnClickListener(id) {
                     @Override
                     public void onClick(View v) {
-                        switchToRoomConfig(type,id);
+                        switchToSceneConfig(id);
                     }
                 });
                 scenesContent.addView(sceneView);
