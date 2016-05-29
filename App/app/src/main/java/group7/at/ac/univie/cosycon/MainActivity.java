@@ -6,11 +6,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,50 +82,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        LinearLayout roomContent = (LinearLayout) room.findViewById(R.id.rooms_content),
-                     scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
-                     timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
+        LinearLayout
+                roomContent = (LinearLayout) room.findViewById(R.id.rooms_content),
+                scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
+                timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
 
         // Beispiel. Iterieren durch alle Elemente und Informationen extrahieren
 
         roomContent.removeAllViewsInLayout();
-
-        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
-            String name = room_sp.getString("G" + i + "_name", null);
-            if(name!=null)
-            {
-                String type = room_sp.getString("G" + i + "_itemtype", null);
-                String id = "G"+i;
-                View deviceview = createDeviceCard(name+" "+type);
-                deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
-                    @Override
-                    public void onClick(View v) {
-                        switchToRoomConfig(type,id);
-                        finish();
-                    }
-                });
-                roomContent.addView(deviceview);
-            }
-
-        }
-
         scenesContent.removeAllViewsInLayout();
+        timelineContent.removeAllViewsInLayout();
 
-        for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
-            String name = scene_sp.getString("S" + i + "_name", null);
-            if(name!=null)
-            {
-                String id = "S"+i;
-                View deviceview = createDeviceCard(name);
-                deviceview.setOnClickListener(new DeviceOnClickListener(id) {
-                    @Override
-                    public void onClick(View v) {
-                        switchToSceneConfig(id);
-                        finish();
-                    }
-                });
-                scenesContent.addView(deviceview);
-            }
+        showRoomContent(roomContent);
+        showScenesContent(scenesContent);
 
         }
     }
@@ -168,10 +140,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public void switchPage()
-    {
 
-
+    private void switchPage() {
         Intent intent = null;
         // Check BottomBar position and open corresponding Activity
         if (bottomNavigationBar.getCurrentSelectedPosition() == 0)
@@ -179,28 +149,22 @@ public class MainActivity extends AppCompatActivity {
         else if (bottomNavigationBar.getCurrentSelectedPosition() == 1)
             intent = new Intent(this, ScenesActivity.class);
         else if (bottomNavigationBar.getCurrentSelectedPosition() == 2)
-            intent = new Intent(this, TimelineActivity.class);
+            intent = new Intent(this, AddTimelineActivity.class);
 
         if (intent != null)
             startActivity(intent);
-        finish();
     }
-    public void switchToRoomConfig(String type, String id)
+
+    private void switchToRoomConfig(String type, String id)
     {
         Intent intent = null;
         if(type.equals("Lamp"))
-        {
             intent = new Intent(this,RoomConfig_lamp.class);
-
-        }
         else if(type.equals("TV"))
-        {
             intent = new Intent(this,Roomconfig_TV.class);
-        }
         else if(type.equals("Music"))
-        {
             intent = new Intent(this,RoomConfig_Music.class);
-        }
+
         intent.putExtra("GID",id);
         startActivity(intent);
     }
@@ -211,63 +175,139 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void showRoomContent (LinearLayout roomContent) {
+        LinearLayout horizLayout = null;
+        int success = 0;
+
+        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
+            String name = room_sp.getString("G" + i + "_name", null);
+            if(name!=null) {
+                String type = room_sp.getString("G" + i + "_itemtype", null);
+                String id = "G"+i;
+                View deviceview = createDeviceCard(name, type, true);
+                deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
+                    @Override
+                    public void onClick(View v) {
+                        switchToRoomConfig(type,id);
+                    }
+                });
+                if (success % 2 == 0){
+                    horizLayout = createLinearLayout(false);
+                    roomContent.addView(horizLayout);
+                }
+                horizLayout.addView(deviceview);
+                success++;
+            }
+        }
+    }
+
+
+    private void showScenesContent(LinearLayout scenesContent) {
+        for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
+            String name = scene_sp.getString("S" + i + "_name", null);
+            if(name!=null) {
+                String id = "S"+i;
+                View sceneView = createDeviceCard(name, type, false);
+                sceneView.setOnClickListener(new DeviceOnClickListener(id,type) {
+                    @Override
+                    public void onClick(View v) {
+                        switchToRoomConfig(type,id);
+                    }
+                });
+                scenesContent.addView(sceneView);
+            }
+        }
+    }
 
     // ---------------- Methoden zum Darstellen von Informationen -------------
-    public View createDeviceCard(String name, String type, boolean isSensor) {
+    private View createDeviceCard(String name, String type, boolean size) {
         CardView card = new CardView(getApplicationContext());
 
-        // Set Padding so different CardViews don't stick together
-        card.setUseCompatPadding(true);
+        card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
 
         // Add LinearLayout and TextViews to the Card
         card.addView(
-                (createLinearLayout(
-                        createTextView(name, "black", 15),
-                        createTextView(type, "grey", 12),
-                        createTextView(isSensor?"Sensor":"Actor", "grey", 12)
-                )));
+                createLinearLayout(
+                        true,
+                        createTextView(name, "black", 10),
+                        createImageView(type),
+                        createTextView(type, "grey", 8)
+                )
+        );
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        size ? LinearLayout.LayoutParams.WRAP_CONTENT : LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        0
+                );
+        cardParams.setMargins(
+                convertDpToPixel(30),
+                convertDpToPixel(5),
+                convertDpToPixel(30),
+                convertDpToPixel(5)
+        );
+
+        card.setLayoutParams(cardParams);
 
         return card;
     }
-    public View createDeviceCard(String name) {
-        CardView card = new CardView(getApplicationContext());
-        card.setUseCompatPadding(true);
-        card.addView(
-                (createLinearLayout(
-                        createTextView(name, "black", 15)
-                )));
 
-        return card;
+    private ImageView createImageView(String type) {
+        ImageView imageView = new ImageView(context);
+
+        if(type.equals("Lamp"))
+            imageView.setImageResource(R.drawable.lamp_hue);
+        else if(type.equals("TV"))
+            imageView.setImageResource(R.drawable.tv);
+        else if(type.equals("Music"))
+            imageView.setImageResource(R.drawable.music_hifi);
+        else
+            imageView.setImageResource(R.drawable.not_found);
+
+        imageView.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        convertDpToPixel(80),
+                        convertDpToPixel(80),
+                        0
+                )
+        );
+
+        return imageView;
     }
 
-    public TextView createTextView(String text, String color, float size) {
+    private TextView createTextView(String text, String color, float size) {
         TextView textView = new TextView(getApplicationContext());
-
-        textView.setPadding(convertToDp(200), convertToDp(60), convertToDp(200), convertToDp(60));
 
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, size);
         textView.setTextColor(Color.parseColor(color));
         textView.setText(text);
+        textView.setGravity(Gravity.CENTER);
 
         return textView;
     }
 
-    public LinearLayout createLinearLayout(TextView... textViews) {
+    private LinearLayout createLinearLayout(boolean vertHor, View... Views) {
         LinearLayout linearLayout = new LinearLayout(getApplicationContext());
 
-        // Set linearLayout's orientation to vertical so the TextViews will be shown underneath each other
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundColor(Color.WHITE);
+        linearLayout.setPadding(
+                convertDpToPixel(10),
+                convertDpToPixel(10),
+                convertDpToPixel(10),
+                convertDpToPixel(10)
+        );
 
-        for (TextView object : textViews)
+        // Set linearLayout's orientation to vertical so the TextViews will be shown underneath each other
+        linearLayout.setOrientation(vertHor ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
+
+        for (View object : Views)
             linearLayout.addView(object);
 
         return linearLayout;
     }
 
-    public int convertToDp(int px) {
-        return (int) (px / this.getApplicationContext().getResources().getDisplayMetrics().density);
+    public int convertDpToPixel(int dp) {
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics()));
     }
-
 
 }

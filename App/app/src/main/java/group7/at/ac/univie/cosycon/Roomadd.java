@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ public class Roomadd extends AppCompatActivity {
 
     private SharedPreferences preferencessetting;
     private SharedPreferences.Editor editor;
+    Toolbar toolbar;
     EditText gname;
     Spinner itemtype;
     RadioButton issensor;
@@ -51,7 +53,7 @@ public class Roomadd extends AppCompatActivity {
                     {
                         addbutton.setEnabled(true);
                         //success("successfully adding object");
-                        switchpage();
+                        finish();
                     }
 
                     else
@@ -59,7 +61,6 @@ public class Roomadd extends AppCompatActivity {
                         addbutton.setEnabled(true);
                         warn("this serial id is already exist. type in a new one");
                     }
-
 
                 }
 
@@ -71,6 +72,8 @@ public class Roomadd extends AppCompatActivity {
 
     private void initializeVariables()
     {
+        toolbar = (Toolbar) findViewById(R.id.add_room_toolbar);
+        setSupportActionBar(toolbar);
         gname = (EditText)findViewById(R.id.gname);
         itemtype = (Spinner)findViewById(R.id.itemtyp);
         issensor = (RadioButton)findViewById(R.id.issensor);
@@ -105,12 +108,7 @@ public class Roomadd extends AppCompatActivity {
         else
             return false;
     }
-    public void switchpage()
-    {
-        finish();
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-    }
+
     public void warn(String message)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -136,18 +134,11 @@ public class Roomadd extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        switchpage();
+                        finish();
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
-    }
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
-
     }
 };
 

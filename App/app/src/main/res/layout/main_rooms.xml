@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="@dimen/general_margin_bottom"
+    android:layout_marginBottom="@dimen/bottom_navigation_height"
     android:id="@id/main_rooms"
     android:visibility="visible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
