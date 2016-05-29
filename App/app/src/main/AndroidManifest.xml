@@ -35,7 +35,8 @@
         <activity android:name=".RoomConfig_lamp" />
         <activity android:name=".Roomadd" />
         <activity android:name=".Roomconfig_TV" />
-        <activity android:name=".RoomConfig_Music"></activity>
+        <activity android:name=".RoomConfig_Music" />
+        <activity android:name=".SceneConfig"></activity>
     </application>
 
 </manifest>
