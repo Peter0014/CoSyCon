@@ -37,15 +37,17 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
         <EditText
-            android:id="@+id/add_scene_edit"
+            android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Put Scene name here..."/>
 
         <Button
-            android:id="@+id/add_scene_save"
+            android:id="@+id/savebutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"/>
+            android:text="Save"
+            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 
