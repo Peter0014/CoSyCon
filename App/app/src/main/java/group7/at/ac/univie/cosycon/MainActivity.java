@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             String name = scene_sp.getString("S" + i + "_name", null);
             if(name!=null) {
                 String id = "S"+i;
-                View sceneView = createDeviceCard(name, "", false);
+                View sceneView = createDeviceCard(name, false);
                 sceneView.setOnClickListener(new DeviceOnClickListener(id) {
                     @Override
                     public void onClick(View v) {
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
         return card;
     }
-    private View createDeviceCard(String name,boolean size) {
+    private View createDeviceCard(String name, boolean size) {
         CardView card = new CardView(getApplicationContext());
 
         card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
