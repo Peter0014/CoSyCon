@@ -49,8 +49,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
         android:layout_marginBottom="210dp"
+        android:layout_marginTop="80dp"
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <LinearLayout
@@ -71,8 +71,8 @@
                 android:id="@+id/add_timeline_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:animateLayoutChanges="true">
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
             </LinearLayout>
 
@@ -89,33 +89,33 @@
                 android:id="@+id/add_timeline_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"/>
+                android:text="Save" />
 
         </LinearLayout>
 
     </ScrollView>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:gravity="center_horizontal"
         android:layout_marginBottom="150dp"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Add a Scene at"
-            android:textSize="35sp"/>
+            android:textSize="35sp" />
 
         <NumberPicker
             android:id="@+id/numberPicker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"/>
+            android:descendantFocusability="blocksDescendants" />
 
     </LinearLayout>
 

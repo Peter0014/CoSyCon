@@ -11,15 +11,16 @@ import android.widget.TextView;
 
 public class Roomconfig_TV extends AppCompatActivity {
 
-    private SharedPreferences preferencessetting;
     SharedPreferences.Editor editor;
-    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,chplus,chminus,volplus,volminus,deletebutton,savebutton;
+    Button b1, b2, b3, b4, b5, b6, b7, b8, b9, b0, chplus, chminus, volplus, volminus, deletebutton, savebutton;
     TextView title, currentcanal;
     String id = "", name;
+    private SharedPreferences preferencessetting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roomconfig__tv);
+        setContentView(R.layout.activity_room_config__tv);
 
         initializeVariables();
 
@@ -30,20 +31,20 @@ public class Roomconfig_TV extends AppCompatActivity {
             id = extras.getString("GID");
         }
 
-        name = preferencessetting.getString(id+"_name",id);
+        name = preferencessetting.getString(id + "_name", id);
         title.setText(name);
-        currentcanal.setText(String.valueOf(preferencessetting.getInt(id+"_canal",0)));
+        currentcanal.setText(String.valueOf(preferencessetting.getInt(id + "_canal", 0)));
         b0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",0);
+                editor.putInt(id + "_canal", 0);
                 currentcanal.setText("0");
             }
         });
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",1);
+                editor.putInt(id + "_canal", 1);
                 currentcanal.setText("1");
                 editor.commit();
             }
@@ -51,7 +52,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",2);
+                editor.putInt(id + "_canal", 2);
                 currentcanal.setText("2");
                 editor.commit();
             }
@@ -59,7 +60,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",3);
+                editor.putInt(id + "_canal", 3);
                 currentcanal.setText("3");
                 editor.commit();
             }
@@ -67,7 +68,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",4);
+                editor.putInt(id + "_canal", 4);
                 currentcanal.setText("4");
                 editor.commit();
             }
@@ -75,7 +76,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",5);
+                editor.putInt(id + "_canal", 5);
                 currentcanal.setText("5");
                 editor.commit();
             }
@@ -83,7 +84,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",6);
+                editor.putInt(id + "_canal", 6);
                 currentcanal.setText("6");
                 editor.commit();
             }
@@ -91,7 +92,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",7);
+                editor.putInt(id + "_canal", 7);
                 currentcanal.setText("7");
                 editor.commit();
             }
@@ -99,7 +100,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",8);
+                editor.putInt(id + "_canal", 8);
                 currentcanal.setText("8");
                 editor.commit();
                 editor.commit();
@@ -108,7 +109,7 @@ public class Roomconfig_TV extends AppCompatActivity {
         b9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putInt(id + "_canal",9);
+                editor.putInt(id + "_canal", 9);
                 currentcanal.setText("9");
                 editor.commit();
             }
@@ -116,12 +117,12 @@ public class Roomconfig_TV extends AppCompatActivity {
         chplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int chnow = preferencessetting.getInt(id + "_canal",0);
-                if(chnow == 9)
+                int chnow = preferencessetting.getInt(id + "_canal", 0);
+                if (chnow == 9)
                     chnow = 0;
                 else
                     chnow++;
-                editor.putInt(id + "_canal",chnow);
+                editor.putInt(id + "_canal", chnow);
                 editor.commit();
                 currentcanal.setText(String.valueOf(chnow));
             }
@@ -129,12 +130,12 @@ public class Roomconfig_TV extends AppCompatActivity {
         chminus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int chnow = preferencessetting.getInt(id + "_canal",0);
-                if(chnow == 0)
+                int chnow = preferencessetting.getInt(id + "_canal", 0);
+                if (chnow == 0)
                     chnow = 9;
                 else
                     chnow--;
-                editor.putInt(id + "_canal",chnow);
+                editor.putInt(id + "_canal", chnow);
                 editor.commit();
                 currentcanal.setText(String.valueOf(chnow));
             }
@@ -142,8 +143,8 @@ public class Roomconfig_TV extends AppCompatActivity {
         volplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int volnow = preferencessetting.getInt(id + "_volume",0);
-                editor.putInt(id + "_volume",++volnow);
+                int volnow = preferencessetting.getInt(id + "_volume", 0);
+                editor.putInt(id + "_volume", ++volnow);
                 editor.commit();
 
             }
@@ -151,8 +152,8 @@ public class Roomconfig_TV extends AppCompatActivity {
         volminus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int volnow = preferencessetting.getInt(id + "_volume",0);
-                editor.putInt(id + "_volume",--volnow);
+                int volnow = preferencessetting.getInt(id + "_volume", 0);
+                editor.putInt(id + "_volume", --volnow);
                 editor.commit();
 
             }
@@ -160,8 +161,8 @@ public class Roomconfig_TV extends AppCompatActivity {
         deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.remove(id+"_name");
-                editor.remove(id+"_itemtype");
+                editor.remove(id + "_name");
+                editor.remove(id + "_itemtype");
                 editor.commit();
                 finish();
             }
@@ -175,26 +176,25 @@ public class Roomconfig_TV extends AppCompatActivity {
 
     }
 
-    private void initializeVariables()
-    {
-        b0 = (Button)findViewById(R.id.button0);
-        b1 = (Button)findViewById(R.id.button1);
-        b2 = (Button)findViewById(R.id.button2);
-        b3 = (Button)findViewById(R.id.button3);
-        b4 = (Button)findViewById(R.id.button4);
-        b5 = (Button)findViewById(R.id.button5);
-        b6 = (Button)findViewById(R.id.button6);
-        b7 = (Button)findViewById(R.id.button7);
-        b8 = (Button)findViewById(R.id.button8);
-        b9 = (Button)findViewById(R.id.button9);
-        chplus = (Button)findViewById(R.id.chplus);
-        chminus = (Button)findViewById(R.id.chminus);
-        volplus = (Button)findViewById(R.id.volplus);
-        volminus = (Button)findViewById(R.id.volminus);
-        deletebutton = (Button)findViewById(R.id.deletebutton);
-        savebutton = (Button)findViewById(R.id.savebutton);
-        title = (TextView)findViewById(R.id.title);
-        currentcanal = (TextView)findViewById(R.id.currentcanal);
+    private void initializeVariables() {
+        b0 = (Button) findViewById(R.id.button0);
+        b1 = (Button) findViewById(R.id.button1);
+        b2 = (Button) findViewById(R.id.button2);
+        b3 = (Button) findViewById(R.id.button3);
+        b4 = (Button) findViewById(R.id.button4);
+        b5 = (Button) findViewById(R.id.button5);
+        b6 = (Button) findViewById(R.id.button6);
+        b7 = (Button) findViewById(R.id.button7);
+        b8 = (Button) findViewById(R.id.button8);
+        b9 = (Button) findViewById(R.id.button9);
+        chplus = (Button) findViewById(R.id.chplus);
+        chminus = (Button) findViewById(R.id.chminus);
+        volplus = (Button) findViewById(R.id.volplus);
+        volminus = (Button) findViewById(R.id.volminus);
+        deletebutton = (Button) findViewById(R.id.deletebutton);
+        savebutton = (Button) findViewById(R.id.savebutton);
+        title = (TextView) findViewById(R.id.title);
+        currentcanal = (TextView) findViewById(R.id.currentcanal);
         preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         editor = preferencessetting.edit();
     }

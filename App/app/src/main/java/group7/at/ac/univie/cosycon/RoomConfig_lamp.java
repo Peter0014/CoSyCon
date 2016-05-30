@@ -13,14 +13,14 @@ import android.widget.TextView;
 
 public class RoomConfig_lamp extends AppCompatActivity {
 
-    private SharedPreferences preferencessetting;
     SharedPreferences.Editor editor;
     TextView title;
     Switch powerbutton;
     Switch rotate, blink;
     SeekBar volume;
     String id = "", name;
-    Button deletebutton,savebutton;
+    Button deletebutton, savebutton;
+    private SharedPreferences preferencessetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +36,23 @@ public class RoomConfig_lamp extends AppCompatActivity {
             id = extras.getString("GID");
         }
 
-        name = preferencessetting.getString(id+"_name",id);
+        name = preferencessetting.getString(id + "_name", id);
         title.setText(name);
         ///////////// Power button
         setDefaultState();
         powerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean power = preferencessetting.getBoolean(id+"_power",false);
-                editor.putBoolean(id+"_power",!power);
+                boolean power = preferencessetting.getBoolean(id + "_power", false);
+                editor.putBoolean(id + "_power", !power);
                 editor.commit();
             }
         });
         rotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean rotating = preferencessetting.getBoolean(id+"_rotate",false);
-                editor.putBoolean(id+"_rotate",!rotating);
+                boolean rotating = preferencessetting.getBoolean(id + "_rotate", false);
+                editor.putBoolean(id + "_rotate", !rotating);
                 editor.commit();
             }
         });
@@ -62,8 +62,8 @@ public class RoomConfig_lamp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // do something to blink
-                boolean blinking = preferencessetting.getBoolean(id+"_blink",false);
-                editor.putBoolean(id+"_blink",!blinking);
+                boolean blinking = preferencessetting.getBoolean(id + "_blink", false);
+                editor.putBoolean(id + "_blink", !blinking);
                 editor.commit();
             }
         });
@@ -72,8 +72,8 @@ public class RoomConfig_lamp extends AppCompatActivity {
         volume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int vol = preferencessetting.getInt(id+"_volume",0);
-                editor.putInt(id+"_volume",progress);
+                int vol = preferencessetting.getInt(id + "_volume", 0);
+                editor.putInt(id + "_volume", progress);
                 editor.commit();
             }
 
@@ -90,8 +90,8 @@ public class RoomConfig_lamp extends AppCompatActivity {
         deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.remove(id+"_name");
-                editor.remove(id+"_itemtype");
+                editor.remove(id + "_name");
+                editor.remove(id + "_itemtype");
                 editor.commit();
                 finish();
             }
@@ -104,27 +104,27 @@ public class RoomConfig_lamp extends AppCompatActivity {
         });
 
     }
-    private void initializeVariables()
-    {
+
+    private void initializeVariables() {
         powerbutton = (Switch) findViewById(R.id.powerbutton);
-        rotate = (Switch)findViewById(R.id.rotate);
-        blink = (Switch)findViewById(R.id.blink);
-        volume = (SeekBar)findViewById(R.id.volume);
-        title = (TextView)findViewById(R.id.title);
-        deletebutton = (Button)findViewById(R.id.deletebutton);
-        savebutton = (Button)findViewById(R.id.savebutton);
+        rotate = (Switch) findViewById(R.id.rotate);
+        blink = (Switch) findViewById(R.id.blink);
+        volume = (SeekBar) findViewById(R.id.volume);
+        title = (TextView) findViewById(R.id.title);
+        deletebutton = (Button) findViewById(R.id.deletebutton);
+        savebutton = (Button) findViewById(R.id.savebutton);
         preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         editor = preferencessetting.edit();
     }
-    private void setDefaultState()
-    {
-        boolean power = preferencessetting.getBoolean(id+"_power",false);
+
+    private void setDefaultState() {
+        boolean power = preferencessetting.getBoolean(id + "_power", false);
         powerbutton.setChecked(power);
-        boolean rotating = preferencessetting.getBoolean(id+"_rotate",false);
+        boolean rotating = preferencessetting.getBoolean(id + "_rotate", false);
         rotate.setChecked(rotating);
-        boolean blinking = preferencessetting.getBoolean(id+"_blink",false);
+        boolean blinking = preferencessetting.getBoolean(id + "_blink", false);
         blink.setChecked(blinking);
-        int vol = preferencessetting.getInt(id+"_volume",0);
+        int vol = preferencessetting.getInt(id + "_volume", 0);
         volume.setProgress(vol);
     }
 }

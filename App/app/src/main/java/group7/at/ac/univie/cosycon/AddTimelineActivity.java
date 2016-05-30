@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,13 +30,13 @@ public class AddTimelineActivity extends AppCompatActivity {
     Toolbar toolbar;
     String timelineId;
     Button saveButton;
+    boolean edit;
     LinearLayout timeContent;
     LinearLayout bottomSceneContent;
     NumberPicker numberPicker;
     ArrayList<String> numbers, addedScenes;
     SharedPreferences timeline_sp, room_sp, scene_sp;
 
-    String id;
     private long mLastClickTime = 0;
 
 
@@ -55,7 +53,7 @@ public class AddTimelineActivity extends AppCompatActivity {
             timeContent.addView(
                     createTimeElement(
                             Integer.parseInt(numbers.get(i)),
-                            scene_sp.getString(addedScenes.get(i)+"_name", null)));
+                            scene_sp.getString(addedScenes.get(i) + "_name", null)));
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -97,53 +95,53 @@ public class AddTimelineActivity extends AppCompatActivity {
         room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         timeline_sp = getSharedPreferences("Timeline", Context.MODE_PRIVATE);
 
+        edit = false;
+
         Intent main = getIntent();
         Bundle extras = main.getExtras();
         if (extras != null) {
+            edit = true;
             timelineId = extras.getString("TID");
             numbers = new ArrayList<>(
                     Arrays.asList(
                             timeline_sp.getString(
-                                    timelineId+"_times", null).split(",\\s*")));
+                                    timelineId + "_times", null).split(",\\s*")));
             addedScenes = new ArrayList<>(
                     Arrays.asList(
                             timeline_sp.getString(
-                                    timelineId+"_scenes", null).split(",\\s*")));
+                                    timelineId + "_scenes", null).split(",\\s*")));
         }
 
     }
 
-    private boolean dataexist()
-    {
-        return timeline_sp.getString("T"+id+"_name",null)!= null;
+    private boolean dataexist(String id) {
+        return timeline_sp.getString("T" + id + "_name", null) != null;
     }
-    private boolean saveData()
-    {
-        int idnum = timeline_sp.getInt("T_Array_len",0);
-        id = "T" + idnum;
+
+    private boolean saveData() {
+        int idnum = timeline_sp.getInt("T_Array_len", 0);
+        String id = edit ? timelineId : "T" + idnum;
         String times = "";
         String sceneIds = "";
         for (String time : numbers)
             times += time + ", ";
         for (String deviceId : addedScenes)
             sceneIds += deviceId + ", ";
-        if(!dataexist())
-        {
+        if (!dataexist(id)) {
             SharedPreferences.Editor editor = timeline_sp.edit();
-            editor.putInt("T_Array_len",++idnum);
-            editor.putString(id+"_times", times);
-            editor.putString(id+"_scenes", sceneIds);
+            if (!edit)
+                editor.putInt("T_Array_len", ++idnum);
+            editor.putString(id + "_times", times);
+            editor.putString(id + "_scenes", sceneIds);
             editor.apply();
-            System.out.println(idnum);
             return true;
-        }
-        else
+        } else
             return false;
     }
 
     private void getScenesContent(LinearLayout scenesContent) {
-        for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
-            String deviceIds = scene_sp.getString("S"+i+"_devices", null);
+        for (int i = 0; i < scene_sp.getInt("S_Array_len", 0); i++) {
+            String deviceIds = scene_sp.getString("S" + i + "_devices", null);
             String description = "Changed Devices: ";
             if (deviceIds != null) {
                 List<String> deviceId = Arrays.asList(deviceIds.split(",\\s*"));
@@ -153,8 +151,8 @@ public class AddTimelineActivity extends AppCompatActivity {
                 }
             }
             String name = scene_sp.getString("S" + i + "_name", null);
-            if(name!=null) {
-                View sceneView = createSceneElement(name, description, "S"+i);
+            if (name != null) {
+                View sceneView = createSceneElement(name, description, "S" + i);
                 scenesContent.addView(sceneView);
             }
         }
@@ -171,9 +169,9 @@ public class AddTimelineActivity extends AppCompatActivity {
         layoutElement.setOrientation(LinearLayout.HORIZONTAL);
         layoutElement.setLayoutParams(
                 new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    0
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        0
                 )
         );
         layoutElement.setGravity(Gravity.CENTER_VERTICAL);
@@ -215,10 +213,10 @@ public class AddTimelineActivity extends AppCompatActivity {
 
         cardContent.setLayoutParams(
                 new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    0
-            )
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        0
+                )
         );
         cardContent.setPadding(
                 convertDpToPixel(15),
@@ -260,9 +258,9 @@ public class AddTimelineActivity extends AppCompatActivity {
 
         scroller.setLayoutParams(
                 new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    0
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        0
                 )
         );
 

@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Listener for changes made in BottomNavigationBar
-        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener(){
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-                switch(position) {
+                switch (position) {
                     case 0:
                         scenes.setVisibility(View.INVISIBLE);
                         timeline.setVisibility(View.INVISIBLE);
@@ -62,20 +62,16 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onTabUnselected(int position) {
             }
+
             @Override
             public void onTabReselected(int position) {
             }
 
         });
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
 
     }
 
@@ -131,8 +127,7 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.room_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 switchPage();
             }
         });
@@ -143,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = null;
         // Check BottomBar position and open corresponding Activity
         if (bottomNavigationBar.getCurrentSelectedPosition() == 0)
-            intent = new Intent(this, Roomadd.class);
+            intent = new Intent(this, AddRoomActivity.class);
         else if (bottomNavigationBar.getCurrentSelectedPosition() == 1)
-            intent = new Intent(this, ScenesActivity.class);
+            intent = new Intent(this, AddSceneActivity.class);
         else if (bottomNavigationBar.getCurrentSelectedPosition() == 2)
             intent = new Intent(this, AddTimelineActivity.class);
 
@@ -153,49 +148,48 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
     }
 
-    private void switchToRoomConfig(String type, String id)
-    {
+    private void switchToRoomConfig(String type, String id) {
         Intent intent = null;
-        if(type.equals("Lamp"))
-            intent = new Intent(this,RoomConfig_lamp.class);
-        else if(type.equals("TV"))
-            intent = new Intent(this,Roomconfig_TV.class);
-        else if(type.equals("Music"))
-            intent = new Intent(this,RoomConfig_Music.class);
+        if (type.equals("Lamp"))
+            intent = new Intent(this, RoomConfig_lamp.class);
+        else if (type.equals("TV"))
+            intent = new Intent(this, Roomconfig_TV.class);
+        else if (type.equals("Music"))
+            intent = new Intent(this, RoomConfig_Music.class);
 
-        intent.putExtra("GID",id);
+        intent.putExtra("GID", id);
         startActivity(intent);
     }
-    public void switchToSceneConfig(String id)
-    {
-        Intent intent = new Intent(this,ScenesActivity.class);
-        intent.putExtra("SID",id);
+
+    public void switchToSceneConfig(String id) {
+        Intent intent = new Intent(this, AddSceneActivity.class);
+        intent.putExtra("SID", id);
         startActivity(intent);
     }
-    public void switchToTimelineConfig(String id)
-    {
+
+    public void switchToTimelineConfig(String id) {
         Intent intent = new Intent(this, AddTimelineActivity.class);
-        intent.putExtra("TID",id);
+        intent.putExtra("TID", id);
         startActivity(intent);
     }
 
-    public void showRoomContent (LinearLayout roomContent) {
+    public void showRoomContent(LinearLayout roomContent) {
         LinearLayout horizLayout = null;
         int success = 0;
 
-        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
+        for (int i = 0; i < room_sp.getInt("G_Array_len", 0); i++) {
             String name = room_sp.getString("G" + i + "_name", null);
-            if(name!=null) {
+            if (name != null) {
                 String type = room_sp.getString("G" + i + "_itemtype", null);
-                String id = "G"+i;
+                String id = "G" + i;
                 View deviceview = createDeviceCard(name, type, true);
-                deviceview.setOnClickListener(new DeviceOnClickListener(id,type) {
+                deviceview.setOnClickListener(new DeviceOnClickListener(id, type) {
                     @Override
                     public void onClick(View v) {
-                        switchToRoomConfig(type,id);
+                        switchToRoomConfig(type, id);
                     }
                 });
-                if (success % 2 == 0){
+                if (success % 2 == 0) {
                     horizLayout = createLinearLayout(false);
                     roomContent.addView(horizLayout);
                 }
@@ -207,10 +201,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showScenesContent(LinearLayout scenesContent) {
-        for (int i = 0; i < scene_sp.getInt("S_Array_len",0); i++) {
+        for (int i = 0; i < scene_sp.getInt("S_Array_len", 0); i++) {
             String name = scene_sp.getString("S" + i + "_name", null);
-            if(name!=null) {
-                String id = "S"+i;
+            if (name != null) {
+                String id = "S" + i;
                 View sceneView = createDeviceCard(name, "", false);
                 sceneView.setOnClickListener(new DeviceOnClickListener(id) {
                     @Override
@@ -224,13 +218,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showTimelineContent(LinearLayout timelineContent) {
-        System.out.println("Test");
-        for (int i = 0; i < timeline_sp.getInt("T_Array_len",0); i++) {
-            String id = "T"+i;
+        for (int i = 0; i < timeline_sp.getInt("T_Array_len", 0); i++) {
+            String id = "T" + i;
             String description = String.valueOf(i) + "\nAdded Scenes: ";
 
-            for (String sceneId : timeline_sp.getString(id+"_scenes", null).split(",\\s*"))
-                description += scene_sp.getString(sceneId+"_name", null) + ", ";
+            for (String sceneId : timeline_sp.getString(id + "_scenes", "").split(",\\s*"))
+                description += scene_sp.getString(sceneId + "_name", null) + ", ";
 
             View sceneView = createDeviceCard(description, "", false);
             sceneView.setOnClickListener(new DeviceOnClickListener(id) {
@@ -289,11 +282,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView createImageView(String type) {
         ImageView imageView = new ImageView(context);
 
-        if(type.equals("Lamp"))
+        if (type.equals("Lamp"))
             imageView.setImageResource(R.drawable.lamp_hue);
-        else if(type.equals("TV"))
+        else if (type.equals("TV"))
             imageView.setImageResource(R.drawable.tv);
-        else if(type.equals("Music"))
+        else if (type.equals("Music"))
             imageView.setImageResource(R.drawable.music_hifi);
         else
             imageView.setImageResource(R.drawable.not_found);

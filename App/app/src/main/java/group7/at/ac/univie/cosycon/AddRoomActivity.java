@@ -2,7 +2,6 @@ package group7.at.ac.univie.cosycon;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -15,49 +14,40 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-public class Roomadd extends AppCompatActivity {
+public class AddRoomActivity extends AppCompatActivity {
 
-    private SharedPreferences preferencessetting;
-    private SharedPreferences.Editor editor;
     Toolbar toolbar;
     EditText gname;
     Spinner itemtype;
     RadioButton issensor;
     Button addbutton;
-
-    private long mLastClickTime = 0;
     String id;
+    private SharedPreferences preferencessetting;
+    private long mLastClickTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roomadd);
+        setContentView(R.layout.activity_room_add);
 
         initializeVariables();
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            public void onClick(View view) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
                 addbutton.setEnabled(false);
-                if(gname.getText().toString().trim().length()<=0)
-                {
+                if (gname.getText().toString().trim().length() <= 0) {
                     warn("adding requires name");
-                }
-                else
-                {
+                } else {
 
-                    if(savedata())
-                    {
+                    if (savedata()) {
                         addbutton.setEnabled(true);
                         //success("successfully adding object");
                         finish();
-                    }
-
-                    else
-                    {
+                    } else {
                         addbutton.setEnabled(true);
                         warn("this serial id is already exist. type in a new one");
                     }
@@ -70,47 +60,37 @@ public class Roomadd extends AppCompatActivity {
 
     }
 
-    private void initializeVariables()
-    {
+    private void initializeVariables() {
         toolbar = (Toolbar) findViewById(R.id.add_room_toolbar);
         setSupportActionBar(toolbar);
-        gname = (EditText)findViewById(R.id.gname);
-        itemtype = (Spinner)findViewById(R.id.itemtyp);
-        issensor = (RadioButton)findViewById(R.id.issensor);
-        addbutton = (Button)findViewById(R.id.addbutton);
+        gname = (EditText) findViewById(R.id.gname);
+        itemtype = (Spinner) findViewById(R.id.itemtyp);
+        issensor = (RadioButton) findViewById(R.id.issensor);
+        addbutton = (Button) findViewById(R.id.addbutton);
         preferencessetting = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
 
     }
 
-    private boolean dataexist()
-    {
-
-        if(preferencessetting.getString("G"+id+"_name",null)!= null)
-            return true;
-        else
-            return false;
+    private boolean dataexist() {
+        return preferencessetting.getString("G" + id + "_name", null) != null;
     }
-    private boolean savedata()
-    {
-        int idnum = preferencessetting.getInt("G_Array_len",0);
+
+    private boolean savedata() {
+        int idnum = preferencessetting.getInt("G_Array_len", 0);
         id = "G" + idnum;
-        if(!dataexist())
-        {
-            editor = preferencessetting.edit();
-            editor.putString(id+"_name",gname.getText().toString());
-            editor.putString(id+"_itemtype",itemtype.getSelectedItem().toString());
-            editor.putBoolean(id+"_issensor",issensor.isChecked());
-            editor.commit();
-            editor.putInt("G_Array_len",++idnum);
-            editor.commit();
+        if (!dataexist()) {
+            SharedPreferences.Editor editor = preferencessetting.edit();
+            editor.putString(id + "_name", gname.getText().toString());
+            editor.putString(id + "_itemtype", itemtype.getSelectedItem().toString());
+            editor.putBoolean(id + "_issensor", issensor.isChecked());
+            editor.putInt("G_Array_len", ++idnum);
+            editor.apply();
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public void warn(String message)
-    {
+    public void warn(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         builder.setCancelable(true);
@@ -124,8 +104,8 @@ public class Roomadd extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-    public void success(String message)
-    {
+
+    public void success(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         builder.setCancelable(true);
@@ -140,5 +120,4 @@ public class Roomadd extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-};
-
+}

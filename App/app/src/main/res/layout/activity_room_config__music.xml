@@ -10,169 +10,151 @@
     tools:context="group7.at.ac.univie.cosycon.RoomConfig_Music">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Music"
-        android:id="@+id/title"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:text="Music"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <View
+        android:id="@+id/space1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/title"
         android:layout_alignParentStart="true"
-        android:id="@+id/space1" />
+        android:layout_below="@+id/title" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@+id/space1"
-        android:id="@+id/tableLayout"
         android:layout_centerHorizontal="true">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
-                android:text="New Button"
                 android:id="@+id/button"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_column="8"
-                android:visibility="invisible"/>
+                android:text="New Button"
+                android:visibility="invisible" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
                 android:id="@+id/button17"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_column="13"
-                android:visibility="invisible"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="New Button"
+                android:visibility="invisible" />
+
+            <Button
                 android:id="@+id/button11"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_column="16"
-                android:visibility="invisible"/>
+                android:text="New Button"
+                android:visibility="invisible" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Previous"
                 android:id="@+id/previousbutton"
-                android:layout_column="8" />
-
-            <Button
-                android:text="Play"
-                android:id="@+id/playbutton"
-                android:layout_column="13" />
-
-            <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
+                android:layout_column="8"
+                android:text="Previous" />
+
+            <Button
+                android:id="@+id/playbutton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_column="13"
+                android:text="Play" />
+
+            <Button
                 android:id="@+id/nextbutton"
-                android:layout_column="16" />
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="16"
+                android:text="Next" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/stop"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stop"
-                android:id="@+id/stop"
-                android:layout_column="13" />
+                android:layout_column="13"
+                android:text="Stop" />
 
             <Button
+                android:id="@+id/randombutton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Random"
-                android:id="@+id/randombutton"
-                android:layout_column="16" />
+                android:layout_column="16"
+                android:text="Random" />
         </TableRow>
     </TableLayout>
+
     <TextView
+        android:id="@+id/volumetext"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text="Volume"
-        android:id="@+id/volumetext"
-        android:layout_below="@+id/tableLayout"/>
+        android:layout_below="@+id/tableLayout"
+        android:text="Volume" />
+
     <SeekBar
+        android:id="@+id/volume"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:id="@+id/volume"
         android:layout_below="@+id/volumetext"
         android:indeterminate="false"
         android:max="100"
         android:progress="0" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="0"
         android:id="@+id/volvalue"
-        android:layout_alignTop="@+id/volumetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/volumetext"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/volumetext" />
+        android:layout_alignTop="@+id/volumetext"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
         android:id="@+id/deletebutton"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/volume"
-        android:layout_toStartOf="@+id/volvalue"
-        android:layout_marginEnd="60dp" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:layout_below="@+id/volume"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_toStartOf="@+id/volvalue"
+        android:text="Delete" />
+
+    <Button
         android:id="@+id/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/deletebutton"
-        android:layout_toEndOf="@+id/volumetext" />
+        android:layout_toEndOf="@+id/volumetext"
+        android:text="Save" />
 </RelativeLayout>

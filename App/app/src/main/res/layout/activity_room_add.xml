@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="group7.at.ac.univie.cosycon.Roomadd">
+    tools:context=".AddRoomActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,60 +16,59 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:popupTheme="@style/PopupOverlay" >
+            app:popupTheme="@style/PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <EditText
+            android:id="@+id/gname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="type name here"
+            android:layout_marginTop="54dp"
             android:ems="10"
-            android:id="@+id/gname"
-            android:layout_marginTop="54dp" />
+            android:hint="type name here"
+            android:inputType="textPersonName" />
 
         <RadioGroup
+            android:id="@+id/radiogroup_type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/gname"
             android:layout_marginTop="40dp"
-            android:id="@+id/radiogroup_type"
-            android:weightSum="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <TextView
+                android:id="@+id/type_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="0.07"
                 android:text="Type"
-                android:id="@+id/type_text"
-                android:layout_weight="0.07" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Actor"
                 android:id="@+id/isactor"
-                android:checked="false" />
-
-            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sensor"
+                android:checked="false"
+                android:text="Actor" />
+
+            <RadioButton
                 android:id="@+id/issensor"
-                android:checked="true" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Sensor" />
 
             <Space
                 android:layout_width="match_parent"
@@ -77,11 +76,11 @@
                 android:layout_weight="0.07" />
 
             <TextView
+                android:id="@+id/itemtyp_text"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="ItemType"
-                android:id="@+id/itemtyp_text" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Space
                 android:layout_width="match_parent"
@@ -90,12 +89,12 @@
                 android:layout_weight="0.07" />
 
             <Spinner
+                android:id="@+id/itemtyp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/itemtyp"
+                android:layout_weight="0.07"
                 android:entries="@array/items"
                 android:prompt="@string/gtype_prompt"
-                android:layout_weight="0.07"
                 android:spinnerMode="dropdown" />
 
             <Space
@@ -109,12 +108,12 @@
                 android:layout_weight="0.19" />
 
             <Button
+                android:id="@+id/addbutton"
                 android:layout_width="161dp"
                 android:layout_height="wrap_content"
-                android:text="Add"
-                android:id="@+id/addbutton"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.16" />
+                android:layout_weight="0.16"
+                android:text="Add" />
 
         </RadioGroup>
     </LinearLayout>

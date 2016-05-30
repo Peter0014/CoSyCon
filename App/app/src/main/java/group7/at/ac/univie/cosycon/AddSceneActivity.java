@@ -24,9 +24,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ScenesActivity extends AppCompatActivity {
+public class AddSceneActivity extends AppCompatActivity {
 
-    private SharedPreferences scene_sp;
     SharedPreferences room_sp;
     String sceneId;
     EditText name;
@@ -35,16 +34,15 @@ public class ScenesActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout devices;
     ArrayList<String> changedDevices;
-
-    String id;
+    boolean edit;
+    private SharedPreferences scene_sp;
     private long mLastClickTime = 0;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scenes_add);
+        setContentView(R.layout.activity_scene_add);
 
         initializeVariables();
 
@@ -52,28 +50,20 @@ public class ScenesActivity extends AppCompatActivity {
 
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            public void onClick(View view) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
                 savebutton.setEnabled(false);
-                if(name.getText().toString().trim().length()<=0)
-                {
+                if (name.getText().toString().trim().length() <= 0) {
                     warn("adding requires name");
-                }
-                else
-                {
+                } else {
 
-                    if(savedata())
-                    {
+                    if (savedata()) {
                         savebutton.setEnabled(true);
                         finish();
-                    }
-
-                    else
-                    {
+                    } else {
                         savebutton.setEnabled(true);
                         warn("this serial id is already exist. type in a new one");
                     }
@@ -92,50 +82,51 @@ public class ScenesActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.scenes_toolbar);
         setSupportActionBar(toolbar);
 
-        savebutton = (Button)findViewById(R.id.savebutton);
-        name = (EditText)findViewById(R.id.name);
+        savebutton = (Button) findViewById(R.id.savebutton);
+        name = (EditText) findViewById(R.id.name);
         scene_sp = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
         room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         devices = (LinearLayout) findViewById(R.id.add_scene_devices);
+        edit = false;
 
         Intent main = getIntent();
         Bundle extras = main.getExtras();
         changedDevices = new ArrayList<>();
         if (extras != null) {
+            edit = true;
             sceneId = extras.getString("SID");
             changedDevices = new ArrayList<>(
                     Arrays.asList(
                             scene_sp.getString(
-                                    sceneId+"_devices", null).split(",\\s*")));
-            name.setText(scene_sp.getString(sceneId+"_name", null));
+                                    sceneId + "_devices", null).split(",\\s*")));
+            name.setText(scene_sp.getString(sceneId + "_name", null));
         }
 
     }
-    private boolean dataexist()
-    {
-        return scene_sp.getString("S"+id+"_name",null)!= null;
+
+    private boolean dataexist(String id) {
+        return scene_sp.getString("S" + id + "_name", null) != null;
     }
-    private boolean savedata()
-    {
-        int idnum = scene_sp.getInt("S_Array_len",0);
-        id = "S" + idnum;
+
+    private boolean savedata() {
+        int idnum = scene_sp.getInt("S_Array_len", 0);
+        String id = edit ? sceneId : "S" + idnum;
         String deviceIds = "";
         for (String deviceId : changedDevices)
             deviceIds += deviceId + ", ";
-        if(!dataexist())
-        {
+        if (!dataexist(id)) {
             SharedPreferences.Editor editor = scene_sp.edit();
-            editor.putString(id+"_name",name.getText().toString());
-            editor.putInt("S_Array_len",++idnum);
-            editor.putString(id+"_devices",deviceIds);
+            editor.putString(id + "_name", name.getText().toString());
+            if (!edit)
+                editor.putInt("S_Array_len", ++idnum);
+            editor.putString(id + "_devices", deviceIds);
             editor.apply();
             return true;
-        }
-        else
+        } else
             return false;
     }
-    public void warn(String message)
-    {
+
+    public void warn(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         builder.setCancelable(true);
@@ -144,49 +135,33 @@ public class ScenesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-    public void success(String message)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message);
-        builder.setCancelable(true);
-        builder.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        finish();
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
     }
 
-    public void showRoomContent (LinearLayout roomContent) {
+    public void showRoomContent(LinearLayout roomContent) {
         LinearLayout horizLayout = null;
         int success = 0;
 
-        for (int i = 0; i < room_sp.getInt("G_Array_len",0); i++) {
+        for (int i = 0; i < room_sp.getInt("G_Array_len", 0); i++) {
             String name = room_sp.getString("G" + i + "_name", null);
-            if(name!=null) {
+            if (name != null) {
                 String type = room_sp.getString("G" + i + "_itemtype", null);
-                String id = "G"+i;
+                String id = "G" + i;
                 View deviceView = createDeviceCard(name, type, true);
                 if (changedDevices.contains(id))
                     deviceView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
-                deviceView.setOnClickListener(new DeviceOnClickListener(id,type) {
+                deviceView.setOnClickListener(new DeviceOnClickListener(id, type) {
                     @Override
                     public void onClick(View v) {
-                        switchToRoomConfig(type,id);
+                        switchToRoomConfig(type, id);
                         v.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                         changedDevices.add(id);
                     }
                 });
-                if (success % 2 == 0){
+                if (success % 2 == 0) {
                     horizLayout = createLinearLayout(false);
                     roomContent.addView(horizLayout);
                 }
@@ -196,17 +171,16 @@ public class ScenesActivity extends AppCompatActivity {
         }
     }
 
-    private void switchToRoomConfig(String type, String id)
-    {
+    private void switchToRoomConfig(String type, String id) {
         Intent intent = null;
-        if(type.equals("Lamp"))
-            intent = new Intent(this,RoomConfig_lamp.class);
-        else if(type.equals("TV"))
-            intent = new Intent(this,Roomconfig_TV.class);
-        else if(type.equals("Music"))
-            intent = new Intent(this,RoomConfig_Music.class);
+        if (type.equals("Lamp"))
+            intent = new Intent(this, RoomConfig_lamp.class);
+        else if (type.equals("TV"))
+            intent = new Intent(this, Roomconfig_TV.class);
+        else if (type.equals("Music"))
+            intent = new Intent(this, RoomConfig_Music.class);
 
-        intent.putExtra("GID",id);
+        intent.putExtra("GID", id);
         startActivity(intent);
     }
 
@@ -255,11 +229,11 @@ public class ScenesActivity extends AppCompatActivity {
     private ImageView createImageView(String type) {
         ImageView imageView = new ImageView(context);
 
-        if(type.equals("Lamp"))
+        if (type.equals("Lamp"))
             imageView.setImageResource(R.drawable.lamp_hue);
-        else if(type.equals("TV"))
+        else if (type.equals("TV"))
             imageView.setImageResource(R.drawable.tv);
-        else if(type.equals("Music"))
+        else if (type.equals("Music"))
             imageView.setImageResource(R.drawable.music_hifi);
         else
             imageView.setImageResource(R.drawable.not_found);
