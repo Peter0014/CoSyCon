@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     BottomNavigationBar bottomNavigationBar;
     RelativeLayout scenes, timeline, room;
-    SharedPreferences room_sp, scene_sp;
+    SharedPreferences room_sp, scene_sp, timeline_sp;
 
 
     @Override
@@ -87,14 +87,13 @@ public class MainActivity extends AppCompatActivity {
                 scenesContent = (LinearLayout) scenes.findViewById(R.id.scenes_content),
                 timelineContent = (LinearLayout) timeline.findViewById(R.id.timeline_content);
 
-        // Beispiel. Iterieren durch alle Elemente und Informationen extrahieren
-
         roomContent.removeAllViewsInLayout();
         scenesContent.removeAllViewsInLayout();
         timelineContent.removeAllViewsInLayout();
 
         showRoomContent(roomContent);
         showScenesContent(scenesContent);
+        showTimelineContent(timelineContent);
     }
 
     private void initializeVariables() {
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
         room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         scene_sp = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
+        timeline_sp = getSharedPreferences("Timeline", Context.MODE_PRIVATE);
 
         // Find Content Views
         room = (RelativeLayout) findViewById(R.id.main_rooms);
@@ -172,6 +172,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("SID",id);
         startActivity(intent);
     }
+    public void switchToTimelineConfig(String id)
+    {
+        Intent intent = new Intent(this, AddTimelineActivity.class);
+        intent.putExtra("TID",id);
+        startActivity(intent);
+    }
 
     public void showRoomContent (LinearLayout roomContent) {
         LinearLayout horizLayout = null;
@@ -214,6 +220,26 @@ public class MainActivity extends AppCompatActivity {
                 });
                 scenesContent.addView(sceneView);
             }
+        }
+    }
+
+    private void showTimelineContent(LinearLayout timelineContent) {
+        System.out.println("Test");
+        for (int i = 0; i < timeline_sp.getInt("T_Array_len",0); i++) {
+            String id = "T"+i;
+            String description = String.valueOf(i) + "\nAdded Scenes: ";
+
+            for (String sceneId : timeline_sp.getString(id+"_scenes", null).split(",\\s*"))
+                description += scene_sp.getString(sceneId+"_name", null) + ", ";
+
+            View sceneView = createDeviceCard(description, "", false);
+            sceneView.setOnClickListener(new DeviceOnClickListener(id) {
+                @Override
+                public void onClick(View v) {
+                    switchToTimelineConfig(id);
+                }
+            });
+            timelineContent.addView(sceneView);
         }
     }
 

@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +26,7 @@ import java.util.Arrays;
 
 public class ScenesActivity extends AppCompatActivity {
 
-    private SharedPreferences preferencessetting;
+    private SharedPreferences scene_sp;
     SharedPreferences room_sp;
     String sceneId;
     EditText name;
@@ -95,7 +94,7 @@ public class ScenesActivity extends AppCompatActivity {
 
         savebutton = (Button)findViewById(R.id.savebutton);
         name = (EditText)findViewById(R.id.name);
-        preferencessetting = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
+        scene_sp = getSharedPreferences("Scenes", Context.MODE_PRIVATE);
         room_sp = getSharedPreferences("Rooms", Context.MODE_PRIVATE);
         devices = (LinearLayout) findViewById(R.id.add_scene_devices);
 
@@ -106,26 +105,26 @@ public class ScenesActivity extends AppCompatActivity {
             sceneId = extras.getString("SID");
             changedDevices = new ArrayList<>(
                     Arrays.asList(
-                            preferencessetting.getString(
+                            scene_sp.getString(
                                     sceneId+"_devices", null).split(",\\s*")));
-            name.setText(preferencessetting.getString(sceneId+"_name", null));
+            name.setText(scene_sp.getString(sceneId+"_name", null));
         }
 
     }
     private boolean dataexist()
     {
-        return preferencessetting.getString("S"+id+"_name",null)!= null;
+        return scene_sp.getString("S"+id+"_name",null)!= null;
     }
     private boolean savedata()
     {
-        int idnum = preferencessetting.getInt("S_Array_len",0);
+        int idnum = scene_sp.getInt("S_Array_len",0);
         id = "S" + idnum;
         String deviceIds = "";
         for (String deviceId : changedDevices)
             deviceIds += deviceId + ", ";
         if(!dataexist())
         {
-            SharedPreferences.Editor editor = preferencessetting.edit();
+            SharedPreferences.Editor editor = scene_sp.edit();
             editor.putString(id+"_name",name.getText().toString());
             editor.putInt("S_Array_len",++idnum);
             editor.putString(id+"_devices",deviceIds);
