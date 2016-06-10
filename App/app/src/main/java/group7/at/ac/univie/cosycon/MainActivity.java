@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.uxcam.UXCam;
 
 public class MainActivity extends AppCompatActivity {
     Context context;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        UXCam.startWithKey("8b4f54feb49abcc");
 
         initializeVariables();
 
