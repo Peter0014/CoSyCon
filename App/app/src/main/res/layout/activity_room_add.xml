@@ -33,12 +33,13 @@
 
         <EditText
             android:id="@+id/gname"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
             android:ems="10"
             android:hint="type name here"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:singleLine="true" />
 
         <RadioGroup
             android:id="@+id/radiogroup_type"

@@ -9,12 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="group7.at.ac.univie.cosycon.RoomConfig_Music">
 
-    <TextView
+    <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:singleLine="true"
         android:text="Music"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -24,6 +25,16 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/title" />
+
+    <Switch
+        android:id="@+id/tv_powerbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/space1"
+        android:checked="false"
+        android:text="Power" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -144,17 +155,26 @@
         android:id="@+id/deletebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/volume"
-        android:layout_marginEnd="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_below="@id/volume"
+        android:layout_marginTop="100dp"
         android:layout_toStartOf="@+id/volvalue"
+        android:backgroundTint="@color/colorAccent"
         android:text="Delete" />
 
-    <Button
-        android:id="@+id/savebutton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/deletebutton"
-        android:layout_toEndOf="@+id/volumetext"
-        android:text="Save" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="60dp">
+
+        <Button
+            android:id="@+id/savebutton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Save"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
 </RelativeLayout>
