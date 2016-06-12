@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 public class AddTimelineActivity extends AppCompatActivity {
 
     Context context;
@@ -36,6 +39,7 @@ public class AddTimelineActivity extends AppCompatActivity {
     NumberPicker numberPicker;
     ArrayList<String> numbers, addedScenes;
     SharedPreferences timeline_sp, room_sp, scene_sp;
+    final String SHOWCASE_ID = "7b8b2338a6094a49843d47ee824f3ca2";
 
     private long mLastClickTime = 0;
 
@@ -50,10 +54,12 @@ public class AddTimelineActivity extends AppCompatActivity {
         getScenesContent(bottomSceneContent);
 
         for (int i = 0; i < numbers.size(); i++) {
-            timeContent.addView(
-                    createTimeElement(
-                            Integer.parseInt(numbers.get(i)),
-                            scene_sp.getString(addedScenes.get(i) + "_name", null)));
+            if (!numbers.get(0).equals("")) {
+                timeContent.addView(
+                        createTimeElement(
+                                Integer.parseInt(numbers.get(i)),
+                                scene_sp.getString(addedScenes.get(i) + "_name", null)));
+            }
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +74,8 @@ public class AddTimelineActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        startTutorial();
 
     }
 
@@ -105,13 +113,34 @@ public class AddTimelineActivity extends AppCompatActivity {
             numbers = new ArrayList<>(
                     Arrays.asList(
                             timeline_sp.getString(
-                                    timelineId + "_times", null).split(",\\s*")));
+                                    timelineId + "_times", "").split(",\\s*")));
             addedScenes = new ArrayList<>(
                     Arrays.asList(
                             timeline_sp.getString(
-                                    timelineId + "_scenes", null).split(",\\s*")));
+                                    timelineId + "_scenes", "").split(",\\s*")));
         }
 
+    }
+
+    private void startTutorial() {
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half a second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, SHOWCASE_ID);
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(timeContent,
+                "This is the Timeline. All the scenes you add will appear here.", "GOT IT");
+
+        sequence.addSequenceItem(numberPicker,
+                "First you need to select at which minute the scene should be activated", "GOT IT");
+
+        sequence.addSequenceItem(findViewById(R.id.add_timeline_bottom_scrollView),
+                "Then choose a scene that you want to add", "GOT IT");
+
+        sequence.start();
     }
 
     private boolean dataexist(String id) {
